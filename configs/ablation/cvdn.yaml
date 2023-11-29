@@ -1,0 +1,62 @@
+Feature:
+  # param
+  object_feature_type: ""  # "ade20k"
+  angle_feat_size: 4
+  max_objects: 70
+  # feature
+  image_feat_size: 1024
+  feature_database:
+    "mp3d": "eva_features/mp3d_EVA02-CLIP-L-14-336.hdf5"
+    "scan_qa": "eva_features/scanqa_EVA02-CLIP-L-14-336.hdf5"
+    "coco": "eva_features/coco_EVA02-CLIP-L-14-336.hdf5"
+
+  # object
+  obj_feat_size: 768
+  object_database:
+    "reverie": "obj_features/reverie_obj_feat"
+    "soon": "obj_features/soon_obj_feat"
+
+Dataset:
+  CVDN:
+    DIR: "CVDN"
+    SPLIT: {
+      "train": "train.json",
+      "val_seen": "val_seen.json",
+      "val_unseen": "val_unseen.json",
+      "test": "test_cleaned.json"
+    }
+
+
+Multi:
+  SOURCE: ['CVDN']
+  Ratio: [1]
+  LOSS_COEF: {
+  }
+
+
+Model:
+  num_l_layers: 9
+  num_pano_layers: 2
+  num_x_layers: 4
+  graph_sprels: True
+  fusion: "dynamic"
+  enc_full_graph: True
+  expert_policy: "spl"
+
+Optim:
+  val_max_action_len: {
+    "R2R": 15,
+    "REVERIE": 15,
+    "CVDN": 30, # from VLN-SIG
+    "SOON": 20, # from DUET
+    "EQA": 15,
+  }
+  train_max_action_len: {
+    "R2R": 15,
+    "REVERIE": 15,
+    "CVDN": 15,
+    "SOON": 15,
+    "EQA": 15,
+    "R2R_AUG": 15,
+    "REVERIE_AUG": 15
+  }
