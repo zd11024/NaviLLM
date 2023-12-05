@@ -10,8 +10,8 @@
 # conda activate navillm
 
 torchrun --nnodes=1 --nproc_per_node=8 --master_port 41000 train.py \
-    --mode test --data_dir data --cfg_file configs/mp3d/multi_v3.yaml \
+    --stage multi --mode test --data_dir data --cfg_file configs/multi.yaml \
     --pretrained_model_name_or_path data/models/Vicuna-7B --precision amp_bf16 \
     --resume_from_checkpoint $model_path \
     --test_datasets ScanQA \
-    --batch_size 4 --output_dir build/eval --validation_split test --save_pred_results
+    --batch_size 4 --output_dir build/eval --validation_split test_w_obj --save_pred_results

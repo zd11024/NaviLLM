@@ -56,7 +56,8 @@ Dataset:
     SPLIT: {
       "train": "ScanQA_v1.0_train_reformat.json",
       "val_unseen": "ScanQA_v1.0_val_reformat.json",
-      "test": "ScanQA_v1.0_test_wo_obj_reformat.json"
+      "test_wo_obj": "ScanQA_v1.0_test_wo_obj_reformat.json",
+      "test_w_obj": "ScanQA_v1.0_test_w_obj_reformat.json"
     }
   EQA:
     DIR: "EQA_MP3D"

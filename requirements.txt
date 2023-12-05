@@ -20,3 +20,4 @@ torch==1.10.0+cu113
 torchvision==0.11.0+cu113
 tqdm==4.64.1
 transformers==4.28.0
+sentencepiece==0.1.99

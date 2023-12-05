@@ -219,7 +219,7 @@ def val_one_epoch(
         all_preds = all_gather(preds)
         all_preds = merge_dist_results(all_preds)
 
-        if args.rank == 0 and args.validation_split!='test':
+        if args.rank == 0 and not args.validation_split.startswith('test'):
             if name == "R2R":
                 score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
                 useful_score_summary = score_summary
