@@ -5,10 +5,25 @@
 
 This repository contains the codes for our paper "Towards Learning a Generalist Model for Embodied Navigation".
 
-## Abstract
-Abstract Building a generalist agent that can interact with the world is an ultimate goal for humans, thus spurring the research for embodied navigation, where an agent is required to navigate according to instructions or respond to queries. Despite the major progress attained, previous works primarily focus on task-specific agents and lack generalizability to unseen scenarios. Recently, LLMs have presented remarkable capabilities across various fields, and provided a promising opportunity for embodied navigation. Drawing on this, we propose the first generalist model for embodied navigation, *NaviLLM*. It adapts LLMs to embodied navigation by introducing schema-based instruction. The schema-based instruction flexibly casts various tasks into generation problems, thereby unifying a wide range of tasks. This approach allows us to integrate diverse data sources from various datasets into the training, equipping *NaviLLM* with a wide range of capabilities required by embodied navigation. We conduct extensive experiments to evaluate the performance and generalizability of our model. The experimental results demonstrate that our unified model achieves state-of-the-art performance on CVDN, SOON, and ScanQA. Specifically, it surpasses the previous stats-of-the-art method by a significant margin of **29%** in goal progress on CVDN. Moreover, our model also demonstrates strong generalizability and presents impressive results on unseen tasks, e.g., embodied question answering and 3D captioning.
+Authors: Duo Zheng<sup>1,2*</sup>, Shijia Huang<sup>1*</sup>, Lin Zhao<sup>3,4</sup>, Yiwu Zhong<sup>1</sup> and Liwei Wang<sup>1&ddagger;</sup>
 
-## Overview of *NaviLLM*
+<sup>*</sup>Equal contribution.
+<sup>&ddagger;</sup> Corresponding author.
+
+<strong>
+<sup>1</sup>The Chinese University of Hong Kong<br>
+<sup>2</sup>Shanghai AI Laboratory<br>
+<sup>3</sup>Centre for Perceptual and Interactive Intelligence<br>
+<sup>4</sup>Beijing Institute of Technology<br>
+</strong>
+
+## Updates
+- Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/r/personal/1155204980_link_cuhk_edu_hk/Documents/Projects/NaviLLM/data?csf=1&web=1&e=kA8GdD).
+- Dec 5, our paper is released.
+- Nov 28, we make our code public.
+
+## Overview
+Building a generalist agent that can interact with the world is an ultimate goal for humans, thus spurring the research for embodied navigation, where an agent is required to navigate according to instructions or respond to queries. Despite the major progress attained, previous works primarily focus on task-specific agents and lack generalizability to unseen scenarios. Recently, LLMs have presented remarkable capabilities across various fields, and provided a promising opportunity for embodied navigation. Drawing on this, we propose the first generalist model for embodied navigation, *NaviLLM*. It adapts LLMs to embodied navigation by introducing schema-based instruction. The schema-based instruction flexibly casts various tasks into generation problems, thereby unifying a wide range of tasks. This approach allows us to integrate diverse data sources from various datasets into the training, equipping *NaviLLM* with a wide range of capabilities required by embodied navigation. We conduct extensive experiments to evaluate the performance and generalizability of our model. The experimental results demonstrate that our unified model achieves state-of-the-art performance on CVDN, SOON, and ScanQA. Specifically, it surpasses the previous stats-of-the-art method by a significant margin of **29%** in goal progress on CVDN. Moreover, our model also demonstrates strong generalizability and presents impressive results on unseen tasks, e.g., embodied question answering and 3D captioning.
 
 <p align="center">
     <img src="figs/model.jpg" width="95%"><br>
@@ -51,7 +66,9 @@ pip install -r requirements.txt
 ```
 
 ## Data Processing and Models
-The data directory is structed as follows. And we will release the processed data and checkpoints as soon as possible.
+The data directory is structed as follows. Please download the processed data and features from [One Drive](https://mycuhk-my.sharepoint.com/:f:/r/personal/1155204980_link_cuhk_edu_hk/Documents/Projects/NaviLLM/data?csf=1&web=1&e=kA8GdD).
+
+And we will release the models as soon as possible.
 
 
 ```
