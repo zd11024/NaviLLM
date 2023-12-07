@@ -18,7 +18,7 @@ Authors: Duo Zheng<sup>1,2*</sup>, Shijia Huang<sup>1*</sup>, Lin Zhao<sup>3,4</
 </strong>
 
 ## Updates
-- Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/r/personal/1155204980_link_cuhk_edu_hk/Documents/Projects/NaviLLM/data?csf=1&web=1&e=kA8GdD).
+- Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
 - Dec 5, our paper is released.
 - Nov 28, we make our code public.
 
@@ -66,7 +66,7 @@ pip install -r requirements.txt
 ```
 
 ## Data Processing and Models
-The data directory is structed as follows. Please download the processed data and features from [One Drive](https://mycuhk-my.sharepoint.com/:f:/r/personal/1155204980_link_cuhk_edu_hk/Documents/Projects/NaviLLM/data?csf=1&web=1&e=kA8GdD).
+The data directory is structed as follows. Please download the processed data and features from [One Drive](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
 
 And we will release the models as soon as possible.
 
