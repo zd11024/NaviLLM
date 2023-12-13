@@ -18,6 +18,7 @@ Authors: Duo Zheng<sup>1,2*</sup>, Shijia Huang<sup>1*</sup>, Lin Zhao<sup>3,4</
 </strong>
 
 ## Updates
+- Dec 13, we release the model checkpoints at this [link](https://huggingface.co/zd11024/NaviLLM).
 - Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
 - Dec 5, our paper is released.
 - Nov 28, we make our code public.
@@ -65,10 +66,8 @@ conda activate navillm
 pip install -r requirements.txt
 ```
 
-## Data Processing and Models
+## Data Processing
 The data directory is structed as follows. Please download the processed data and features from [One Drive](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
-
-And we will release the models as soon as possible.
 
 
 ```
@@ -117,6 +116,32 @@ We leverage the object features extracted from ViT-B16 by [HM3DAutoVLN](https://
 **4. Models**
 
 The LLM is built upon [Vicuna-7B-v0](https://huggingface.co/lmsys/vicuna-7b-delta-v0/tree/main). Please download the pre-trained model and put it at data/models.
+
+
+## Model Checkpoints
+We release the model checkpoints and corresponding training logs as follows.
+
+<table border="1" width="100%">
+    <tr align="center">
+        <th></th><th>Log</th><th>Cost</th><th>CVDN</th><th colspan="2">SOON</th><th colspan="2">R2R</th><th colspan="2">REVERIE</th><th colspan="2">ScanQA</th>
+    </tr>
+        <tr align="center">
+        <td></td><td></td><td>Time (day)</td><td>GP</td><td>SR</td><td>SPL</td><td>SR</td><td>SPL</td><td>SR</td><td>SPL</td><td>EM</td><td>Rouge-L</td>
+    </tr>
+        </tr>
+        <tr align="center">
+        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_without_pretrain</a></td><td><a href="figs/model_without_pretrain.log">here</a></td><td>~1</td><td>5.91</td><td>35.44</td><td>28.09</td><td><b>67</b></td><td>58</td><td><b>44.56</b></td><td><b>36.63</b></td><td><b>23.3</b></td><td><b>38.2</b></td>
+    </tr>
+    </tr>
+        </tr>
+        <tr align="center">
+        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_with_pretrain</a></td><td><a href="figs/model_with_pretrain.log">here</a></td><td>~3</td><td><b>6.16</b></td><td><b>38.33</b></td><td><b>29.24</b></td><td><b>67</b></td><td><b>59</b></td><td>42.15</td><td>35.68</td><td>22.1</td><td>37.6</td>
+    </tr>
+</table>
+<br></br>
+
+Previous works have consistently shown notable improvements after pre-training on augmented data from 2R and REVERIE. However, in our experiment, we find only a slight enhancement on R2R, CVDN, and SOON after pre-training. We speculate that the quality of the data may play a more crucial role than its quantity for our method.
+
 
 
 ## Training & Inference
