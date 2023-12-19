@@ -10,6 +10,8 @@ ERROR_MARGIN = 3.0
 
 
 class CVDNDataset(MP3DDataset):
+    name = "cvdn"
+    
     def __init__(
             self,
             args,

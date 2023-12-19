@@ -19,6 +19,8 @@ from .mp3d_dataset import MP3DDataset, get_anno_file_path
 
 
 class EQADataset(MP3DDataset):
+    name = "eqa"
+
     def __init__(
             self,
             args,

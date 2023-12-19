@@ -5,6 +5,8 @@ from collections import defaultdict
 ERROR_MARGIN = 3.0
 
 class R2RDataset(MP3DDataset):
+    name = "r2r"
+
     def load_data(self, anno_file, max_instr_len=200, debug=False):
         """
         :param anno_file:

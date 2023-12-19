@@ -2,22 +2,12 @@ import copy
 from tools.common_utils import get_dist_info
 import torch
 import torch.distributed as dist
-from .agent import NavigationAgent
+from .agents.nav_agent import NavigationAgent
 from typing import List, Dict, Tuple, Union, Iterator
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
-from .datasets import (
-    R2RDataset, 
-    CVDNDataset, 
-    SOONDataset,
-    EQADataset,
-    REVERIEDataset,
-    R2RAugDataset,
-    REVERIEAugDataset,
-    ImageTextDataset, 
-    COCOCaptionDataset,
-    ScanQADataset
-)
+from .datasets import load_dataset
+
 
 def create_dataloaders(args, config, logger, training, device, feat_db=None, obj_feat_db=None, stage="multi"):
     if training==False and stage=='pretrain':
@@ -36,32 +26,8 @@ def create_dataloaders(args, config, logger, training, device, feat_db=None, obj
     else:
         dataset_list = copy.deepcopy(dataset_cfg.SOURCE)
     for k, task_name in enumerate(dataset_list):
-
-        if task_name == "R2R":
-            dataset = R2RDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name == 'REVERIE':
-            dataset = REVERIEDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name == 'CVDN':
-            dataset = CVDNDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name == 'SOON':
-            dataset = SOONDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name == 'EQA':
-            dataset = EQADataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name in ["ScanQA"]:
-            dataset = ScanQADataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name in ["LLaVA"]:
-            # Note: LLaVa is only available for training
-            if task_name=="LLaVA" and not training:
-                continue
-            dataset = ImageTextDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name in ["coco_caption"]:
-            dataset = COCOCaptionDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name == "R2R_AUG":
-            dataset = R2RAugDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        elif task_name == "REVERIE_AUG":
-            dataset = REVERIEAugDataset(args, dataset_cfg, training=training, logger=logger, source=task_name)
-        else:
-            raise NotImplementedError(task_name)
+        # load dataset by names
+        dataset = load_dataset(task_name.lower(), args, dataset_cfg, training=training, logger=logger, source=task_name)
 
         # assign feature database
         if task_name in ["R2R", "REVERIE", "CVDN", "SOON", "EQA", "R2R_AUG", "REVERIE_AUG"]:
@@ -100,10 +66,13 @@ def create_dataloaders(args, config, logger, training, device, feat_db=None, obj
         else:
             dataloaders[task_name] = PrefetchLoader(task_loader, device=device)
 
-        if task_name in ["LLaVA", "coco_caption", "ScanQA"]:
-                agents[task_name] = None
-        else:
-            agents[task_name] = NavigationAgent(args, dataset.shortest_distances, dataset.shortest_paths)
+        # if task_name in ["LLaVA", "coco_caption", "ScanQA"]:
+        #         agents[task_name] = None
+        # else:
+        #     agents[task_name] = NavigationAgent(args, dataset.shortest_distances, dataset.shortest_paths)
+
+        # load agents
+
 
     if training:
         meta_loader = MetaLoader(

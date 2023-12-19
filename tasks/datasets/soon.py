@@ -14,6 +14,8 @@ ERROR_MARGIN = 3.0
 
 
 class SOONDataset(MP3DDataset):
+    name = "soon"
+
     def __init__(
             self,
             args,

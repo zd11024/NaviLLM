@@ -3,7 +3,7 @@ import json
 import copy
 from PIL import Image
 from typing import Dict, Any, List, Tuple
-from .image_text_dataset import ImageTextDataset
+from .llava import LLaVADataset
 import random
 import torch
 import numpy as np
@@ -12,7 +12,9 @@ from tools.evaluation.rouge import Rouge
 from tools.evaluation.cider import Cider
 from tools.evaluation.meteor import Meteor
 
-class ScanQADataset(ImageTextDataset):
+class ScanQADataset(LLaVADataset):
+    name = "scanqa"
+
     def _load_data(self, config: Dict, data_dir: str):
         if config.ScanQA.DIR.startswith("/"):
             path = os.path.join(config.ScanQA.DIR, config.ScanQA.SPLIT[self.split])

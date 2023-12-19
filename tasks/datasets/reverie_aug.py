@@ -5,6 +5,8 @@ from collections import defaultdict
 from transformers import AutoTokenizer
 
 class REVERIEAugDataset(REVERIEDataset):
+    name = "reverie_aug"
+
     def load_data(self, anno_file, obj2vps, debug=False):
         if str(anno_file).endswith("json"):
             return super().load_data(anno_file, obj2vps, debug=debug)

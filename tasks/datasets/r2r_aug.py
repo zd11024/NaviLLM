@@ -5,6 +5,8 @@ from collections import defaultdict
 from transformers import AutoTokenizer
 
 class R2RAugDataset(R2RDataset):
+    name = "r2r_aug"
+
     def load_data(self, anno_file, max_instr_len=200, debug=False):
         """
         :param anno_file:

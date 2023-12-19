@@ -220,21 +220,7 @@ def val_one_epoch(
         all_preds = merge_dist_results(all_preds)
 
         if args.rank == 0 and not args.validation_split.startswith('test'):
-            if name == "R2R":
-                score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
-                useful_score_summary = score_summary
-            elif name == "REVERIE":
-                score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
-            elif name == "CVDN":
-                score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
-            elif name == "SOON":
-                score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
-            elif name == "EQA":
-                score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
-            elif name == "ScanQA":
-                score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
-            else:
-                raise ValueError("Undefined task {}".format(name))
+            score_summary, item_metrics = dataset.eval_metrics(all_preds, logger=logger, name=name)
 
             task_results[name] = score_summary
             loss_str += "\n [Eval] dataset=[{}] \n".format(name)

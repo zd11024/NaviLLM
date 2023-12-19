@@ -5,7 +5,7 @@ from typing import Dict
 import numpy as np
 import msgpack
 import msgpack_numpy
-from .mp3d.mp3d_envs import angle_feature, convert_elevation, convert_heading
+from .datasets.mp3d_envs import angle_feature, convert_elevation, convert_heading
 msgpack_numpy.patch()
 
 

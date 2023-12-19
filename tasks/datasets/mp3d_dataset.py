@@ -1,6 +1,5 @@
 import copy
 from pathlib import Path
-import torch.utils.data as torch_data
 import torch
 import math
 from collections import defaultdict
@@ -10,13 +9,14 @@ from .mp3d_envs import (
     EnvBatch, new_simulator, angle_feature,
     get_all_point_angle_feature, load_nav_graphs,
 )
+from .base_dataset import BaseDataset
 
 def get_anno_file_path(data_dir, dataset_path, filename):
     if dataset_path.startswith('/'):
         return Path(dataset_path) / filename
     return Path(data_dir) / dataset_path / filename
 
-class MP3DDataset(torch_data.Dataset):
+class MP3DDataset(BaseDataset):
     def __init__(
             self,
             args,

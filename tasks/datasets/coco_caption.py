@@ -3,10 +3,12 @@ import json
 import copy
 from PIL import Image
 from typing import Dict, Any, List
-from .image_text_dataset import ImageTextDataset
+from .llava import LLaVADataset
 
 
-class COCOCaptionDataset(ImageTextDataset):
+class COCOCaptionDataset(LLaVADataset):
+    name = "coco"
+
     def _load_data(self, config: Dict, data_dir: str):
         path = os.path.join(data_dir, config.coco_caption.DIR, config.coco_caption.SPLIT[self.split])
 

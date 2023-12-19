@@ -5,6 +5,8 @@ from .mp3d_dataset import MP3DDataset
 from collections import defaultdict
 
 class REVERIEDataset(MP3DDataset):
+    name = "reverie"
+
     def __init__(
         self,
         args,

@@ -7,10 +7,12 @@ import numpy as np
 from collections import defaultdict
 from PIL import Image
 from typing import List, Dict, Any, Union
-import torch.utils.data as torch_data
+from .base_dataset import BaseDataset
 
 
-class ImageTextDataset(torch_data.Dataset):
+class LLaVADataset(BaseDataset):
+    name = 'llava'
+
     def __init__(
         self,
         args,

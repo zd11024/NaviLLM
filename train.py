@@ -2,8 +2,8 @@ import os
 from pathlib import Path
 import torch.nn as nn
 from tools.parser import read_args, random_seed
-from datasets.loaders import create_dataloaders
-from datasets.feature_db import create_feature_db, create_object_feature_db
+from tasks.loaders import create_dataloaders
+from tasks.feature_db import create_feature_db, create_object_feature_db
 from models.nav_model import NavModel
 from tools.optims import dist_models, save_checkpoint
 from core.pipeline import train_one_epoch, val_one_epoch, calc_overall_score
