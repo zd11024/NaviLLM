@@ -5,3 +5,6 @@ from .eqa import EQADataset
 from .reverie import REVERIEDataset
 from .r2r_aug import R2RAugDataset
 from .reverie_aug import REVERIEAugDataset
+from .image_text_dataset import ImageTextDataset
+from .coco_caption_dataset import COCOCaptionDataset
+from .scan_qa import ScanQADataset

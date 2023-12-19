@@ -6,19 +6,17 @@ from .agent import NavigationAgent
 from typing import List, Dict, Tuple, Union, Iterator
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
-from .image_text import (
-    ImageTextDataset, 
-    COCOCaptionDataset,
-    ScanQADataset
-)
-from .mp3d import (
+from .datasets import (
     R2RDataset, 
     CVDNDataset, 
     SOONDataset,
     EQADataset,
     REVERIEDataset,
     R2RAugDataset,
-    REVERIEAugDataset
+    REVERIEAugDataset,
+    ImageTextDataset, 
+    COCOCaptionDataset,
+    ScanQADataset
 )
 
 def create_dataloaders(args, config, logger, training, device, feat_db=None, obj_feat_db=None, stage="multi"):
