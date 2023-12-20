@@ -2,11 +2,11 @@ import copy
 from tools.common_utils import get_dist_info
 import torch
 import torch.distributed as dist
-from .agents.nav_agent import NavigationAgent
 from typing import List, Dict, Tuple, Union, Iterator
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from .datasets import load_dataset
+from .agents import load_agent
 
 
 def create_dataloaders(args, config, logger, training, device, feat_db=None, obj_feat_db=None, stage="multi"):
@@ -66,12 +66,8 @@ def create_dataloaders(args, config, logger, training, device, feat_db=None, obj
         else:
             dataloaders[task_name] = PrefetchLoader(task_loader, device=device)
 
-        # if task_name in ["LLaVA", "coco_caption", "ScanQA"]:
-        #         agents[task_name] = None
-        # else:
-        #     agents[task_name] = NavigationAgent(args, dataset.shortest_distances, dataset.shortest_paths)
-
         # load agents
+        agents[task_name] = load_agent(task_name.lower(), args, getattr(dataset, "shortest_distances", None), getattr(dataset, "shortest_paths", None))
 
 
     if training:
@@ -112,8 +108,8 @@ def build_dataloader(dataset, distributed, training, batch_size, num_workers):
         pre_epoch = lambda e: None
 
         # DataParallel: scale the batch size by the number of GPUs
-        if size > 1:
-            batch_size *= size
+        # if size > 1:
+        #     batch_size *= size
 
     loader = DataLoader(
         dataset,

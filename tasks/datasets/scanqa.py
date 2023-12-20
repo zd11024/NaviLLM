@@ -81,9 +81,9 @@ class ScanQADataset(LLaVADataset):
         score, compute_score = cider_score.compute_score(refs, gen)
         ret["cider"] = score * 100
 
-        meteor_score = Meteor()
-        score, compute_score = meteor_score.compute_score(refs, gen)
-        ret["meteor"] = score * 100
+        # meteor_score = Meteor()
+        # score, compute_score = meteor_score.compute_score(refs, gen)
+        # ret["meteor"] = score * 100
 
         n_correct = 0
         metrics = {"exact_match": []}

@@ -7,7 +7,6 @@ from tools.common_utils import all_gather
 from typing import Dict
 from tools.trie import Trie
 from transformers import LlamaTokenizer
-from .rollout import rollout
 
 
 class Metrics(object):
@@ -63,8 +62,9 @@ def train_one_epoch(
         # perform embodied tasks
         # the actual batch_size equals to args.batch_size * world_size * (args.gradient_accumulation_step)
         dataset = dataloaders.loader.get_dataset(name)
+        agent = agents.get(name)
         if name in ["ScanQA", "LLaVA"]:
-            lm_loss = model("scan_qa", batch).loss
+            lm_loss = model("3dqa", batch, agent).loss
             lm_loss *= loss_coef / args.gradient_accumulation_step
             lm_loss.backward()
 
@@ -73,22 +73,22 @@ def train_one_epoch(
         else:
             if stage=='pretrain' or step%2==0:
                 #################### imitation learning ####################
-                ml_loss, _ = rollout(
+                ml_loss, _ = agent.rollout(
                     args, name, global_cfg.Optim, batch,
                     model=model, criterion=criterion, dataset=dataset,
                     feedback="teacher", train_ml=loss_coef * args.teacher_forcing_coef,
-                    nav_agent=agents[name], entropy_metric=entropy_metric, instr_pred_metric=instr_pred_metric
+                    entropy_metric=entropy_metric, instr_pred_metric=instr_pred_metric
                 )
 
                 loss_metric.accumulate(ml_loss.item() * args.gradient_accumulation_step)
                 loss_stats[name].accumulate(ml_loss.item() * args.gradient_accumulation_step)
             else:
                 #################### dagger training ####################
-                sample_loss, _ = rollout(
+                sample_loss, _ = agent.rollout(
                     args, name, global_cfg.Optim, batch,
                     model=model, criterion=criterion, dataset=dataset,
                     feedback="sample", train_ml=loss_coef,
-                    nav_agent=agents[name], entropy_metric=entropy_metric, instr_pred_metric=instr_pred_metric
+                    entropy_metric=entropy_metric, instr_pred_metric=instr_pred_metric
                 )
 
                 loss_metric.accumulate(sample_loss.item() * args.gradient_accumulation_step)
@@ -147,6 +147,7 @@ def val_one_epoch(
     for name, loader in dataloaders.items():
         logger.info("***** validate {} split on {} task *****".format(args.validation_split, name))
         dataset = dataloaders[name].get_dataset()
+        agent = agents[name]
         # We rely on env showing the entire batch before repeating anything
         looped = False
         pbar = tqdm(loader, disable=args.rank!=0)
@@ -158,7 +159,7 @@ def val_one_epoch(
                     "temperature": args.temperature,
                     "max_new_tokens": 20
                 }
-                outputs = model("scan_qa", batch, training=False, **generation_kwargs)
+                outputs = model("3dqa", batch, agent, training=False, **generation_kwargs)
                 generated_sentences = outputs["generated_sentences"]
                 for i in range(len(batch["question"])):
                     preds.append({
@@ -183,11 +184,11 @@ def val_one_epoch(
                     trie.insert(token_ids)
 
             for i, batch in enumerate(pbar):
-                ml_loss, traj = rollout(
+                ml_loss, traj = agent.rollout(
                     args, name, global_cfg.Optim, batch,
                     model=model, criterion=criterion, dataset=dataset,
                     feedback= "sample" if args.do_sample else "argmax", train_ml=None,
-                    nav_agent=agents[name], entropy_metric=entropy_metric, instr_pred_metric=None,
+                    entropy_metric=entropy_metric, instr_pred_metric=None,
                     validate=True, trie=trie
                 )
 
@@ -200,11 +201,11 @@ def val_one_epoch(
      
                 # Caldulate oracle prediction answer
                 if name in ["EQA"]:
-                    _, oracle_traj = rollout(
+                    _, oracle_traj = agent.rollout(
                         args, name, global_cfg.Optim, batch,
                         model=model, criterion=criterion, dataset=dataset,
                         feedback="teacher", train_ml=1,
-                        nav_agent=agents[name], entropy_metric=entropy_metric, instr_pred_metric=None,
+                        entropy_metric=entropy_metric, instr_pred_metric=None,
                         validate=True, trie=trie
                     )
 
