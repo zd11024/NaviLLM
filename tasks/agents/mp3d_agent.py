@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import torch
+from tqdm import tqdm
 from torch.nn.utils.rnn import pad_sequence
 from models.ops import pad_tensors_wgrad
 from models.graph_utils import calculate_vp_rel_pos_fts, get_angle_fts
@@ -49,6 +50,31 @@ def gen_seq_masks(seq_lens, max_len=None):
     masks = np.arange(max_len).reshape(-1, max_len).repeat(batch_size, 0)
     masks = masks < seq_lens.reshape(-1, 1)
     return masks
+
+def get_results(pred_results, detailed_output=False):
+    pred_output = []
+    for k, v in pred_results.items():
+        ret = {
+            'instr_id': k,
+            'trajectory': v['path']
+        }
+        # scan_qa
+        if 'answer' in v:
+            ret.update({
+                'pred_answer': v['generated_sentences'],
+                'oracle_pred_answer': v.get('oracle_pred_answer', ''),
+                'gt_answer': v['answer'],
+            })
+        
+        # obj nav
+        if 'pred_objid' in v:
+            ret.update({
+                'pred_objid': v['pred_objid'],
+                'pred_obj_direction': v['pred_obj_direction']
+            })
+        pred_output.append(ret)
+
+    return pred_output
 
 
 class MP3DAgent(BaseAgent):
@@ -464,6 +490,106 @@ class MP3DAgent(BaseAgent):
                 elevation = (viewidx // 12 - 1) * math.radians(30)
                 env[i].sims[0].newEpisode([ob['scan']], [action], [heading], [elevation])
 
+    def train(
+        self, 
+        name,
+        batch,
+        args,
+        config,
+        model,
+        criterion,
+        dataset,
+        step=0,
+        entropy_metric=None,
+        instr_pred_metric=None,
+        **kwargs
+    ):
+        dataset_cfg = config.Pretrain if args.stage=='pretrain' else config.Multi
+        loss_coef = dataset_cfg.LOSS_COEF.get(name, 1.)
+        if args.stage=='pretrain' or step%2==0:
+            #################### imitation learning ####################
+            loss, _ = self.rollout(
+                args, name, config.Optim, batch,
+                model=model, criterion=criterion, dataset=dataset,
+                feedback="teacher", train_ml=loss_coef * args.teacher_forcing_coef,
+                entropy_metric=entropy_metric, instr_pred_metric=instr_pred_metric
+            )
+
+        else:
+            #################### dagger training ####################
+            loss, _ = self.rollout(
+                args, name, config.Optim, batch,
+                model=model, criterion=criterion, dataset=dataset,
+                feedback="sample", train_ml=loss_coef,
+                entropy_metric=entropy_metric, instr_pred_metric=instr_pred_metric
+            )
+
+        return loss * args.gradient_accumulation_step
+
+
+    def validate(
+        self,
+        name,
+        args,
+        config,
+        model,
+        loader,
+        entropy_metric=None,
+        instr_pred_metric=None,
+    ):
+        results = {}
+        trie = None
+        looped = False
+        dataset = loader.get_dataset()
+        pbar = tqdm(loader, disable=args.rank!=0)
+        if name in ['EQA']:
+            if hasattr(model, 'module'):
+                tokenizer = model.module.lang_model.tokenizer
+            else:
+                tokenizer = model.lang_model.tokenizer
+
+            trie = Trie(tokenizer.bos_token_id, tokenizer.eos_token_id)
+            for word in dataset.answer_vocab:
+                token_ids = tokenizer(word, add_special_tokens=False)["input_ids"]
+                if isinstance(tokenizer, LlamaTokenizer):
+                    token_ids = [tokenizer.bos_token_id] + token_ids
+                trie.insert(token_ids)
+
+        for i, batch in enumerate(pbar):
+            ml_loss, traj = self.rollout(
+                args, name, config.Optim, batch,
+                model=model, criterion=None, dataset=dataset,
+                feedback= "sample" if args.do_sample else "argmax", train_ml=None,
+                entropy_metric=entropy_metric, instr_pred_metric=None,
+                validate=True, trie=trie
+            )
+
+            for s_traj in traj:
+                if s_traj['instr_id'] in results:
+                    looped = True
+                else:
+                    ml_loss = 0
+                    results[s_traj['instr_id']] = s_traj
+    
+            # Caldulate oracle prediction answer
+            if name in ["EQA"]:
+                _, oracle_traj = self.rollout(
+                    args, name, config.Optim, batch,
+                    model=model, criterion=None, dataset=dataset,
+                    feedback="teacher", train_ml=1,
+                    entropy_metric=entropy_metric, instr_pred_metric=None,
+                    validate=True, trie=trie
+                )
+                for s_traj in oracle_traj:
+                    results[s_traj['instr_id']]['oracle_pred_answer'] = s_traj['generated_sentences']
+
+            if looped:
+                break
+        
+        preds = get_results(results)
+        return preds
+
+
     def rollout(
         self,
         args,
@@ -592,27 +718,12 @@ class MP3DAgent(BaseAgent):
                 if ended.all():
                     in_progress[0] = True
 
-                reshaped_nav_inputs = {}
-                for k, v in nav_inputs.items():
-                    if isinstance(v, torch.Tensor):
-                        reshaped_nav_inputs[k] = v[in_progress]
-                    elif isinstance(v, List):
-                        reshaped_nav_inputs[k] = [item for i, item in enumerate(v) if in_progress[i]]
-                    elif v is None:
-                        reshaped_nav_inputs[k] = v
-                    else:
-                        raise NotImplementedError
-
-                reshaped_nav_outs = model('navigation', reshaped_nav_inputs, agent=self)
-                nav_outs = {}
-                for k, v in reshaped_nav_outs.items():
-                    if isinstance(v, torch.Tensor):
-                        nav_outs[k] = torch.zeros((batch_size,)+v.shape[1:], dtype=v.dtype, device=v.device)
-                        nav_outs[k][in_progress] = v
-                    elif v is None:
-                        nav_outs[k] = v
-                    else:
-                        raise NotImplementedError(f'{type(v)} is not Implemented.')
+                nav_inputs["prompts"] = self.prepare_prompts(
+                    "navigation", 
+                    nav_inputs,
+                    cls_token = model.module.lang_model.cls_token[0] if hasattr(model, 'module') else model.lang_model.cls_token[0]
+                )
+                nav_outs = model('navigation', nav_inputs)
 
                 # dynamic fusion
                 nav_logits = nav_outs['fuse_logits']
@@ -621,21 +732,20 @@ class MP3DAgent(BaseAgent):
                 nav_probs = torch.softmax(nav_logits / args.temperature, 1)
 
                 imitation_learning = feedback == 'teacher'
-                if 'r2r' in data_type:
-                    nav_targets = self.teacher_action_r4r(
-                        obs, nav_vpids, ended,
-                        visited_masks=nav_inputs['gmap_visited_masks'],
-                        imitation_learning=imitation_learning, t=t, traj=traj
-                    )
-                else:
-                    nav_targets = self.teacher_action(
-                        obs, nav_vpids, ended,
-                        visited_masks=nav_inputs['gmap_visited_masks'],
-                    )
                 # Imitation Learning
                 if train_ml is not None:
                     # [1] Supervised training
-
+                    if 'r2r' in data_type:
+                        nav_targets = self.teacher_action_r4r(
+                            obs, nav_vpids, ended,
+                            visited_masks=nav_inputs['gmap_visited_masks'],
+                            imitation_learning=imitation_learning, t=t, traj=traj
+                        )
+                    else:
+                        nav_targets = self.teacher_action(
+                            obs, nav_vpids, ended,
+                            visited_masks=nav_inputs['gmap_visited_masks'],
+                    )
                     ############# Single-Step Loss #############
                     cnt_loss += criterion(nav_logits, nav_targets) * train_ml / batch_size / args.gradient_accumulation_step
 
@@ -701,8 +811,12 @@ class MP3DAgent(BaseAgent):
                         'hist_vis': hist_vis,
                         'data_type': data_type
                     })
-
-                    obj_logits = model('object_grounding', nav_inputs, agent=self)['obj_logits']
+                    nav_inputs["prompts"] = self.prepare_prompts(
+                        "object_grounding",
+                        nav_inputs,
+                        cls_token = model.module.lang_model.cls_token[0] if hasattr(model, 'module') else model.lang_model.cls_token[0]
+                    )
+                    obj_logits = model('object_grounding', nav_inputs)['obj_logits']
                     obj_targets = self.teacher_object(obs)
 
                     if not validate:
@@ -745,8 +859,8 @@ class MP3DAgent(BaseAgent):
                     nav_inputs['answer'] = [ob['fg_instruction'][ob['fg_view'][t]] for ob in obs]
                     nav_inputs['hist_vis'] = [[] for idx in nav_targets]
                     nav_inputs['history'] = [[] for idx in nav_targets]
-
-                    output = model('embodied_qa', nav_inputs, agent=self, training=not validate, **kwargs)
+                    nav_inputs["prompts"] = self.prepare_prompts("embodied_qa", nav_inputs)
+                    output = model('embodied_qa', nav_inputs, training=not validate, **kwargs)
                     if not validate:
                         lm_loss = output["loss"] * args.gen_loss_coef / batch_size / args.gradient_accumulation_step
                         lm_loss.backward()
@@ -781,8 +895,8 @@ class MP3DAgent(BaseAgent):
                     nav_inputs['hist_vis'] = hist_vis
                     nav_inputs["data_type"] = data_type
                     nav_inputs['answer'] = [ob.get('answer', '') for ob in obs]
-
-                    output = model('summarization', nav_inputs, agent=self, training=not validate, **kwargs)
+                    nav_inputs["prompts"] = self.prepare_prompts("summarization", nav_inputs)
+                    output = model('summarization', nav_inputs, training=not validate, **kwargs)
                     if not validate:
                         lm_loss = output["loss"] * args.gen_loss_coef / batch_size / args.gradient_accumulation_step
                         lm_loss.backward()
@@ -848,3 +962,53 @@ class MP3DAgent(BaseAgent):
                     break
 
         return ml_loss, traj
+    
+    def prepare_prompts(self, mode, batch, **kwargs):
+        batch_size = len(batch["instruction"])
+        if mode == "navigation":
+            hist_nums = [len(his) for his in batch["history"]]
+            cand_masks = torch.clone(batch['gmap_masks'] & batch['gmap_visited_masks'].logical_not())
+            cand_nums = cand_masks.sum(dim=-1)
+            prompts = []
+            for bn in range(batch_size):
+                prompts.append(
+                    self.get_prompt(
+                        "navigation",
+                        instruction=batch["instruction"][bn],
+                        hist_num=hist_nums[bn],
+                        cand_num=cand_nums[bn],
+                        cls_token=kwargs.get("cls_token"),
+                    )
+                )
+        elif mode == "summarization" or mode == "embodied_qa":
+            hist_nums = [len(his) for his in batch["history"]]
+            vp_nav_masks = batch["vp_nav_masks"][:, 1:]
+            cand_nums = vp_nav_masks.sum(1)
+            prompts = []
+            for bn in range(batch_size):
+                prompts.append(
+                    self.get_prompt(
+                        mode,
+                        instruction=batch["instruction"][bn],
+                        hist_num=hist_nums[bn],
+                        cand_num=cand_nums[bn],
+                    )
+                )
+        elif mode == "object_grounding":
+            hist_nums = [len(his) for his in batch["history"]]
+            cand_nums = batch["obj_masks"].sum(dim=1) + 1    # add not exist
+            prompts = []
+            for bn in range(batch_size):
+                prompts.append(
+                    self.get_prompt(
+                        mode,
+                        instruction=batch["instruction"][bn],
+                        hist_num=hist_nums[bn],
+                        cand_num=cand_nums[bn],
+                        cls_token=kwargs.get("cls_token"),
+                    )
+                )
+        else:
+            raise NotImplementedError
+
+        return prompts

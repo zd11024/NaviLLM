@@ -1,7 +1,7 @@
-from .base_agent import BaseAgent
+from .llava import LLaVAAgent
 
 
-class ScanQAAgent(BaseAgent):
+class ScanQAAgent(LLaVAAgent):
     name = "scanqa"
 
     def get_prompt(self, task, *args, **kwargs):

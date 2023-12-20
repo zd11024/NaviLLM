@@ -13,4 +13,12 @@ class BaseAgent(metaclass=MetaAgent):
 
     def get_prompt(self, *args, **kwargs):
         raise NotImplementedError
-
+    
+    def prepare_prompts(self, *args, **kwargs):
+        raise NotImplementedError
+    
+    def train(self, *args, **kwargs):
+        raise NotImplementedError
+    
+    def validate(self, *args, **kwargs):
+        raise NotImplementedError

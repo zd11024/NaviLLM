@@ -93,7 +93,7 @@ class NavModel(nn.Module):
         logger.info("model type: {}".format(self.model_type))
 
 
-    def forward(self, mode: str, batch: Dict[str, Any], agent=None, **kwargs) -> Dict[str, Any]:
+    def forward(self, mode: str, batch: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         batch = collections.defaultdict(lambda: None, batch)
 
         if mode == 'panorama':  # batch['view_img_fts'] [B, 36, D=768] --> dropout
@@ -111,16 +111,16 @@ class NavModel(nn.Module):
             )
 
         elif mode == 'navigation':
-            return self.forward_navigation(mode, batch, agent, **kwargs)
+            return self.forward_navigation(mode, batch, **kwargs)
 
         elif mode == "summarization" or mode == 'embodied_qa':
-            return self.forward_summarization(mode, batch, agent, **kwargs)
+            return self.forward_summarization(mode, batch, **kwargs)
 
         elif mode == "3dqa":
-            return self.forward_3dqa(mode, batch, agent, **kwargs)
+            return self.forward_3dqa(mode, batch, **kwargs)
         
         elif mode == 'object_grounding':
-            return self.forward_object_grounding(mode, batch, agent, **kwargs)
+            return self.forward_object_grounding(mode, batch, **kwargs)
 
         else:
             raise NotImplementedError('wrong mode: %s' % mode)
@@ -130,7 +130,6 @@ class NavModel(nn.Module):
         self, 
         mode, 
         batch: Dict[str, Any], 
-        agent,
         training: bool=True, 
         **kwargs
     ) -> Dict[str, Any]:
@@ -208,19 +207,8 @@ class NavModel(nn.Module):
             hist_vis_input = None
 
         hist_nums = [len(his) for his in history]
-        
-        all_text = []
-        for instr, hist_num, cand_num in zip(instruction, hist_nums, cand_nums):
-            prompt = agent.get_prompt(
-                'navigation',
-                instruction = instr,
-                hist_num = hist_num,
-                cand_num = cand_num,
-                cls_token = self.lang_model.cls_token[0]
-            )
-            all_text.append(prompt)
 
-        text_input = self.lang_model.tokenize(all_text).to(fuse_embeds.device)
+        text_input = self.lang_model.tokenize(batch["prompts"]).to(fuse_embeds.device)
 
         # cand_embeds = fuse_embeds[cand_masks]  # .to(self.model_type)
         cand_embeds = []
@@ -264,7 +252,6 @@ class NavModel(nn.Module):
         self, 
         mode, 
         batch: Dict[str, Any], 
-        agent,
         training: bool=True, 
         **kwargs
     ) -> Dict[str, Any]:
@@ -304,17 +291,12 @@ class NavModel(nn.Module):
         
         all_text = []
 
-        for instr, hist_num, label, cand_num in zip(instruction, hist_nums, labels, cand_nums):
-            prompt = agent.get_prompt(
-                mode,
-                instruction = instr,
-                hist_num = hist_num,
-                cand_num = cand_num
-            )
+        for bn in range(batch_size):
+            prompt = batch["prompts"][bn]
             if data_type[0] == 'eqa' or data_type[0] == 'fgr2r':
-                label = label + f"{self.lang_model.tokenizer.eos_token}"
+                label = labels[bn] + f"{self.lang_model.tokenizer.eos_token}"
             else:
-                label = instr + f"{self.lang_model.tokenizer.eos_token}"
+                label = batch["instruction"][bn] + f"{self.lang_model.tokenizer.eos_token}"
             if training:
                 all_text.append([prompt, label])
             else:
@@ -363,7 +345,6 @@ class NavModel(nn.Module):
         self, 
         mode, 
         batch: Dict[str, Any], 
-        agent,
         training: bool=True, 
         **kwargs
     ) -> Dict[str, Any]:
@@ -371,12 +352,7 @@ class NavModel(nn.Module):
         data_type = batch['data_type']
         all_text = []
         for bn in range(batch_size):
-            prompt = agent.get_prompt(
-                '3dqa',
-                ques = batch["question"][bn],
-                cand_num = batch["features"][bn].shape[0]
-            )
-
+            prompt = batch["prompts"][bn]
             if training:
                 ans = batch["answers"][bn][0]+ f"{self.lang_model.tokenizer.eos_token}"
                 all_text.append([prompt, ans])
@@ -428,7 +404,6 @@ class NavModel(nn.Module):
         self, 
         mode, 
         batch: Dict[str, Any], 
-        agent,
         training: bool=True, 
         **kwargs
     ) -> Dict[str, Any]:
@@ -454,18 +429,7 @@ class NavModel(nn.Module):
 
         hist_nums = [len(his) for his in history]
 
-        all_text = []
-        for instr, hist_num, cand_num in zip(instruction, hist_nums, cand_nums):
-            prompt = agent.get_prompt(
-                'object_grounding',
-                instruction = instr,
-                hist_num = hist_num,
-                cand_num = cand_num,
-                cls_token = self.lang_model.cls_token[0]
-            )
-            all_text.append(prompt)
-
-        text_input = self.lang_model.tokenize(all_text).to(obj_embeds.device)
+        text_input = self.lang_model.tokenize(batch["prompts"]).to(obj_embeds.device)
         output = self.lang_model(
             input_ids=text_input['input_ids'],
             attention_mask=text_input['attention_mask'],
