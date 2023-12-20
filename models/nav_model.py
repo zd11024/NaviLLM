@@ -17,6 +17,7 @@ logging.set_verbosity_error()
 def init_vis_config(args, config):
     cfg_name = 'bert-large-uncased'
     vis_config = PretrainedConfig.from_pretrained(cfg_name)
+    vis_config.num_pano_layers = config.num_pano_layers
     vis_config.precision = args.precision
     vis_config.pretrained_model_name_or_path = args.pretrained_model_name_or_path
     vis_config.max_action_steps = 100
@@ -24,20 +25,6 @@ def init_vis_config(args, config):
     vis_config.angle_feat_size = args.angle_feat_size
     vis_config.obj_feat_size = args.obj_feat_size
     vis_config.obj_loc_size = 3
-    vis_config.num_l_layers = config.num_l_layers
-    vis_config.num_pano_layers = config.num_pano_layers
-    vis_config.num_x_layers = config.num_x_layers
-    vis_config.graph_sprels = config.graph_sprels
-
-    vis_config.fix_lang_embedding = False
-    vis_config.fix_pano_embedding = False
-    vis_config.fix_local_branch = False
-
-    vis_config.update_lang_bert = True  # not args.fix_lang_embedding
-    vis_config.output_attentions = True
-    vis_config.pred_head_dropout_prob = 0.1
-    vis_config.use_lang2visn_attn = False
-
     vis_config.type_vocab_size = 3
     return vis_config
 
