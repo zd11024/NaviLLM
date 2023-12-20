@@ -15,7 +15,7 @@ class R2RAgent(MP3DAgent):
 
     def get_navigation_prompt(self, instruction, hist_num, cand_num, cls_token):
         # Task
-        prompt = f'### Instruction: Navigate following the instruction. {instruction} \n'
+        prompt = '### Instruction: Navigate following the instruction. {} \n'.format(instruction)
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
         hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
@@ -52,9 +52,10 @@ class R2RAgent(MP3DAgent):
         # Task
         prompt = f'### Instruction: answer the question. \n'
         # History
-        prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
-        hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
-        prompt += '### History: {}\n'.format(hist_text)
+        if hist_num !=0:
+            prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
+            hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
+            prompt += '### History: {}\n'.format(hist_text)
         # Observation
         if cand_num != 0:
             prompt += 'Following is the Observation, which contains panoramic views at your current location.\n'

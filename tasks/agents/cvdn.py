@@ -11,7 +11,7 @@ class CVDNAgent(MP3DAgent):
 
     def get_navigation_prompt(self, instruction, hist_num, cand_num, cls_token):
         # Task
-        prompt = f'### Instruction: Find the described room according the given dialog. Target: {instruction} \n'
+        prompt = '### Instruction: Find the described room according the given dialog. Target: {} \n'.format(instruction)
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
         hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])

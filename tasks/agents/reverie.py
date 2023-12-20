@@ -15,7 +15,7 @@ class REVERIEAgent(MP3DAgent):
     
     def get_navigation_prompt(self, instruction, hist_num, cand_num, cls_token):
         # Task
-        prompt = f'### Instruction: Go to the location to complete the given task. Task: {instruction} \n'
+        prompt = '### Instruction: Go to the location to complete the given task. Task: {} \n'.format(instruction)
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
         hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
@@ -51,7 +51,7 @@ class REVERIEAgent(MP3DAgent):
 
         # Task
         prompt = "Select the target object from the candidate objects based on the instruction and history.\n"
-        prompt += f'### Instruction: Go to the location to complete the given task. Task: {instruction} \n'
+        prompt += '### Instruction: Go to the location to complete the given task. Task: {} \n'.format(instruction)
 
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'

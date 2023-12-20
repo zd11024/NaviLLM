@@ -106,7 +106,7 @@ def train_one_epoch(
             pbar.update()
 
         if step == num_batches_per_epoch-1:
-            logger.info("***** train [{}] epoch *****wo".format(epoch))
+            logger.info("***** train [{}] epoch *****".format(epoch))
             train_stat_str = 'Loss: %.2f\n' % loss_metric.average
             train_stat_str += "Instr_pred: %.2f\n" % instr_pred_metric.average
             for task in dataset_cfg.SOURCE:
