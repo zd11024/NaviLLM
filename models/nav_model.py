@@ -10,7 +10,6 @@ from pathlib import Path
 from .image_embedding import ImageEmbeddings
 from .modified_lm import ModifiedOPTForCasualLM, ModifiedLlamaForCausalLM, TrieLogitsProcessor
 from typing import Dict, List, Any
-from .prompt import NavPrompt, SumPrompt
 
 logging.set_verbosity_error()
 
@@ -18,6 +17,7 @@ logging.set_verbosity_error()
 def init_vis_config(args, config):
     cfg_name = 'bert-large-uncased'
     vis_config = PretrainedConfig.from_pretrained(cfg_name)
+    vis_config.num_pano_layers = config.num_pano_layers
     vis_config.precision = args.precision
     vis_config.pretrained_model_name_or_path = args.pretrained_model_name_or_path
     vis_config.max_action_steps = 100
@@ -25,20 +25,6 @@ def init_vis_config(args, config):
     vis_config.angle_feat_size = args.angle_feat_size
     vis_config.obj_feat_size = args.obj_feat_size
     vis_config.obj_loc_size = 3
-    vis_config.num_l_layers = config.num_l_layers
-    vis_config.num_pano_layers = config.num_pano_layers
-    vis_config.num_x_layers = config.num_x_layers
-    vis_config.graph_sprels = config.graph_sprels
-
-    vis_config.fix_lang_embedding = False
-    vis_config.fix_pano_embedding = False
-    vis_config.fix_local_branch = False
-
-    vis_config.update_lang_bert = True  # not args.fix_lang_embedding
-    vis_config.output_attentions = True
-    vis_config.pred_head_dropout_prob = 0.1
-    vis_config.use_lang2visn_attn = False
-
     vis_config.type_vocab_size = 3
     return vis_config
 
@@ -106,9 +92,6 @@ class NavModel(nn.Module):
 
         logger.info("model type: {}".format(self.model_type))
 
-        self.nav_prompt = NavPrompt()
-        self.sum_prompt = SumPrompt()
-
 
     def forward(self, mode: str, batch: Dict[str, Any], **kwargs) -> Dict[str, Any]:
         batch = collections.defaultdict(lambda: None, batch)
@@ -117,124 +100,39 @@ class NavModel(nn.Module):
             batch['view_img_fts'] = self.drop_env(batch['view_img_fts'])
             if 'obj_img_fts' in batch:
                 batch['obj_img_fts'] = self.drop_env(batch['obj_img_fts'])
-            return self.get_panorama_features(batch, **kwargs)
+            return self.img_embeddings.forward_panorama_per_step(
+                batch['view_img_fts'],
+                batch['view_lens'],
+                batch['loc_fts'],
+                batch['nav_types'],
+                batch['obj_img_fts'],
+                batch['obj_lens'],
+                batch['obj_loc_fts'],
+            )
 
         elif mode == 'navigation':
-            return self.forward_navigation(batch, **kwargs)
+            return self.forward_navigation(mode, batch, **kwargs)
 
-        elif mode == "sum":
-            return self.forward_navigation_summarization(batch, **kwargs)
+        elif mode == "summarization" or mode == 'embodied_qa':
+            return self.forward_summarization(mode, batch, **kwargs)
 
-        elif mode == "scan_qa":
-            return self.forward_3dqa(batch, **kwargs)
+        elif mode == "3dqa":
+            return self.forward_3dqa(mode, batch, **kwargs)
         
-        elif mode == 'grounding':
-            return self.forward_object_grounding(batch, **kwargs)
+        elif mode == 'object_grounding':
+            return self.forward_object_grounding(mode, batch, **kwargs)
 
         else:
             raise NotImplementedError('wrong mode: %s' % mode)
     
-    def get_panorama_features(self, batch: Dict[str, Any], **kwargs) -> Dict[str, Any]:
-        return self.img_embeddings.forward_panorama_per_step(
-            batch['view_img_fts'],
-            batch['view_lens'],
-            batch['loc_fts'],
-            batch['nav_types'],
-            batch['obj_img_fts'],
-            batch['obj_lens'],
-            batch['obj_loc_fts'],
-        )
 
-    def forward_navigation_summarization(self, batch: Dict[str, Any], training: bool=True, **kwargs) -> Dict[str, Any]:
-        vp_img_embeds = batch['vp_img_embeds']
-        batch_size = vp_img_embeds.size(0)
-        vp_img_embeds, vp_pos_fts, \
-            vp_nav_masks, vp_cand_vpids = \
-            batch['vp_img_embeds'], batch['vp_pos_fts'], \
-                batch['vp_nav_masks'], batch['vp_cand_vpids']
-        
-        # remove `stop`
-        vp_img_embeds = vp_img_embeds[:, 1:, :]
-        vp_nav_masks = vp_nav_masks[:, 1:]
-
-        vp_pos_fts = torch.zeros(vp_img_embeds.shape[:2]+(14,), dtype=torch.float).to(vp_img_embeds.device)
-        token_type_ids = torch.zeros(vp_img_embeds.shape[:2], dtype=torch.int).to(vp_img_embeds.device)
-        vp_img_embeds += self.vp_pos_embeddings(vp_pos_fts)
-        vp_img_embeds += self.token_type_embeddings(token_type_ids)
-
-        instruction = batch['instruction']
-        labels = batch['answer']
-        history = batch['history']
-        hist_vis = batch['hist_vis']
-        data_type = batch['data_type']
-        hist_vis_input = []
-
-        for vis in hist_vis:
-            hist_vis_input.extend(vis)
-        if hist_vis_input != []:
-            hist_vis_input = torch.stack(hist_vis_input, dim=0)
-        else:
-            hist_vis_input = None
-
-        hist_nums = [len(his) for his in history]
-        cand_nums = vp_nav_masks.sum(1)
-        
-        all_text = []
-        for instr, hist_num, label, cand_num in zip(instruction, hist_nums, labels, cand_nums):
-            prompt = self.sum_prompt.get_prompt(
-                instruction = instr,
-                hist_num = hist_num,
-                cand_num = cand_num,
-                data_type = data_type[0],
-            )
-            if data_type[0] == 'eqa' or data_type[0] == 'fgr2r':
-                label = label + f"{self.lang_model.tokenizer.eos_token}"
-            else:
-                label = instr + f"{self.lang_model.tokenizer.eos_token}"
-            if training:
-                all_text.append([prompt, label])
-            else:
-                all_text.append(prompt)
-
-        text_input = self.lang_model.tokenize(all_text).to(vp_img_embeds.device)
-        if training:
-            labels = text_input['input_ids'].clone()
-            labels[text_input['token_type_ids'][:, -labels.shape[-1]:] == 0] = -100
-            outputs = self.lang_model(
-                input_ids=text_input['input_ids'],
-                attention_mask=text_input['attention_mask'],
-                labels=labels,
-                cand_vis=vp_img_embeds[vp_nav_masks],
-                hist_vis=hist_vis_input,
-            )
-            loss, logits, hidden_states = outputs.loss, outputs.logits, outputs.hidden_states
-            outputs = {
-                "loss": loss
-            }
-        else:
-            trie = kwargs.get('trie', None)
-            logits_processor = [TrieLogitsProcessor(trie)] if trie is not None else []
-
-            generate_ids = self.lang_model.generate(
-                input_ids=text_input['input_ids'],
-                attention_mask=text_input['attention_mask'],
-                cand_vis=vp_img_embeds[vp_nav_masks],
-                hist_vis=hist_vis_input,
-                eos_token_id=self.lang_model.tokenizer.eos_token_id,
-                max_new_tokens=50,
-                do_sample=False,
-                logits_processor=logits_processor
-            ).tolist()
-
-            generate_ids = [s[text_input["input_ids"].shape[1]:] for i, s in enumerate(generate_ids)]
-            generated_sentences = self.lang_model.tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
-            outputs = {
-                "generated_sentences": generated_sentences
-            }
-
-        return outputs
-
-    def forward_navigation(self, batch: Dict[str, Any], training: bool=True, **kwargs) -> Dict[str, Any]:
+    def forward_navigation(
+        self, 
+        mode, 
+        batch: Dict[str, Any], 
+        training: bool=True, 
+        **kwargs
+    ) -> Dict[str, Any]:
 
         data_type = batch['data_type']
         vp_img_embeds = batch['vp_img_embeds']
@@ -309,19 +207,8 @@ class NavModel(nn.Module):
             hist_vis_input = None
 
         hist_nums = [len(his) for his in history]
-        
-        all_text = []
-        for instr, hist_num, cand_num in zip(instruction, hist_nums, cand_nums):
-            prompt = self.nav_prompt.get_prompt(
-                instruction = instr,
-                hist_num = hist_num,
-                cand_num = cand_num,
-                data_type = data_type[0],
-                cls_token = self.lang_model.cls_token[0]
-            )
-            all_text.append(prompt)
 
-        text_input = self.lang_model.tokenize(all_text).to(fuse_embeds.device)
+        text_input = self.lang_model.tokenize(batch["prompts"]).to(fuse_embeds.device)
 
         # cand_embeds = fuse_embeds[cand_masks]  # .to(self.model_type)
         cand_embeds = []
@@ -358,31 +245,119 @@ class NavModel(nn.Module):
             'fuse_embeds': fuse_embeds.detach(),
             'fuse_logits': fuse_logits,
         }
+
+    
+
+    def forward_summarization(
+        self, 
+        mode, 
+        batch: Dict[str, Any], 
+        training: bool=True, 
+        **kwargs
+    ) -> Dict[str, Any]:
+
+        vp_img_embeds = batch['vp_img_embeds']
+        batch_size = vp_img_embeds.size(0)
+        vp_img_embeds, vp_pos_fts, \
+            vp_nav_masks, vp_cand_vpids = \
+            batch['vp_img_embeds'], batch['vp_pos_fts'], \
+                batch['vp_nav_masks'], batch['vp_cand_vpids']
+        
+        # remove `stop`
+        vp_img_embeds = vp_img_embeds[:, 1:, :]
+        vp_nav_masks = vp_nav_masks[:, 1:]
+
+        vp_pos_fts = torch.zeros(vp_img_embeds.shape[:2]+(14,), dtype=torch.float).to(vp_img_embeds.device)
+        token_type_ids = torch.zeros(vp_img_embeds.shape[:2], dtype=torch.int).to(vp_img_embeds.device)
+        vp_img_embeds += self.vp_pos_embeddings(vp_pos_fts)
+        vp_img_embeds += self.token_type_embeddings(token_type_ids)
+
+        instruction = batch['instruction']
+        labels = batch['answer']
+        history = batch['history']
+        hist_vis = batch['hist_vis']
+        data_type = batch['data_type']
+        hist_vis_input = []
+
+        for vis in hist_vis:
+            hist_vis_input.extend(vis)
+        if hist_vis_input != []:
+            hist_vis_input = torch.stack(hist_vis_input, dim=0)
+        else:
+            hist_vis_input = None
+
+        hist_nums = [len(his) for his in history]
+        cand_nums = vp_nav_masks.sum(1)
+        
+        all_text = []
+
+        for bn in range(batch_size):
+            prompt = batch["prompts"][bn]
+            if data_type[0] == 'eqa' or data_type[0] == 'fgr2r':
+                label = labels[bn] + f"{self.lang_model.tokenizer.eos_token}"
+            else:
+                label = batch["instruction"][bn] + f"{self.lang_model.tokenizer.eos_token}"
+            if training:
+                all_text.append([prompt, label])
+            else:
+                all_text.append(prompt)
+
+        text_input = self.lang_model.tokenize(all_text).to(vp_img_embeds.device)
+        if training:
+            labels = text_input['input_ids'].clone()
+            labels[text_input['token_type_ids'][:, -labels.shape[-1]:] == 0] = -100
+            outputs = self.lang_model(
+                input_ids=text_input['input_ids'],
+                attention_mask=text_input['attention_mask'],
+                labels=labels,
+                cand_vis=vp_img_embeds[vp_nav_masks],
+                hist_vis=hist_vis_input,
+            )
+            loss, logits, hidden_states = outputs.loss, outputs.logits, outputs.hidden_states
+            outputs = {
+                "loss": loss
+            }
+        else:
+            trie = kwargs.get('trie', None)
+            logits_processor = [TrieLogitsProcessor(trie)] if trie is not None else []
+
+            generate_ids = self.lang_model.generate(
+                input_ids=text_input['input_ids'],
+                attention_mask=text_input['attention_mask'],
+                cand_vis=vp_img_embeds[vp_nav_masks],
+                hist_vis=hist_vis_input,
+                eos_token_id=self.lang_model.tokenizer.eos_token_id,
+                max_new_tokens=50,
+                do_sample=False,
+                logits_processor=logits_processor
+            ).tolist()
+
+            generate_ids = [s[text_input["input_ids"].shape[1]:] for i, s in enumerate(generate_ids)]
+            generated_sentences = self.lang_model.tokenizer.batch_decode(generate_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+            outputs = {
+                "generated_sentences": generated_sentences
+            }
+
+        return outputs
         
 
-    def forward_3dqa(self, batch: Dict[str, Any], training: bool=True, **kwargs) -> Dict[str, Any]:
+    def forward_3dqa(
+        self, 
+        mode, 
+        batch: Dict[str, Any], 
+        training: bool=True, 
+        **kwargs
+    ) -> Dict[str, Any]:
         batch_size = len(batch['question'])
         data_type = batch['data_type']
         all_text = []
         for bn in range(batch_size):
-            ques = batch["question"][bn]
-            if data_type[0]=='scan_qa':
-                scene = ' '.join(["({}) <cand>".format(i) for i in range(batch["features"][bn].shape[0])])
-                input_text = "Please answer questions based on the observation.\n" + \
-                    "The following is the Observation, which includes multiple images from different locations.\n" + \
-                    "### Observation: {} \n".format(scene) + \
-                    "### Question: {}\n".format(ques) + \
-                    "### Answer: "
-            else:
-                input_text = "### Image: <cand>\n" + \
-                    "### Instruction: {}\n".format(ques) + \
-                    "### Output: "
-
+            prompt = batch["prompts"][bn]
             if training:
                 ans = batch["answers"][bn][0]+ f"{self.lang_model.tokenizer.eos_token}"
-                all_text.append([input_text, ans])
+                all_text.append([prompt, ans])
             else:
-                all_text.append(input_text)
+                all_text.append(prompt)
         
         view_img_fts = pad_tensors_wgrad([batch["features"][bn] for bn in range(batch_size)])
         view_lens = torch.tensor([batch["features"][bn].shape[0] for bn in range(batch_size)]).to(view_img_fts.device)
@@ -425,7 +400,14 @@ class NavModel(nn.Module):
         return outputs
 
 
-    def forward_object_grounding(self, batch: Dict[str, Any], training: bool=True, **kwargs) -> Dict[str, Any]:
+    def forward_object_grounding(
+        self, 
+        mode, 
+        batch: Dict[str, Any], 
+        training: bool=True, 
+        **kwargs
+    ) -> Dict[str, Any]:
+
         data_type = batch['data_type']
         obj_embeds, obj_masks, obj_loc_fts = batch['obj_embeds'], batch['obj_masks'], batch['obj_loc_fts']
 
@@ -447,18 +429,7 @@ class NavModel(nn.Module):
 
         hist_nums = [len(his) for his in history]
 
-        all_text = []
-        for instr, hist_num, cand_num in zip(instruction, hist_nums, cand_nums):
-            prompt = self.nav_prompt.get_grounding_prompt(
-                instruction = instr,
-                hist_num = hist_num,
-                cand_num = cand_num,
-                data_type = data_type[0],
-                cls_token = self.lang_model.cls_token[0]
-            )
-            all_text.append(prompt)
-
-        text_input = self.lang_model.tokenize(all_text).to(obj_embeds.device)
+        text_input = self.lang_model.tokenize(batch["prompts"]).to(obj_embeds.device)
         output = self.lang_model(
             input_ids=text_input['input_ids'],
             attention_mask=text_input['attention_mask'],

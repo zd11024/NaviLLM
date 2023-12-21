@@ -1,0 +1,1369 @@
+2023-11-10 15:36:16,718   INFO  **********************Start logging**********************
+2023-11-10 15:36:16,719   INFO  CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+2023-11-10 15:36:16,721   INFO  cfg_file         configs/multi.yaml
+2023-11-10 15:36:16,721   INFO  tokenizer_path   data/models/Vicuna-7B
+2023-11-10 15:36:16,721   INFO  off_batch_task   False
+2023-11-10 15:36:16,722   INFO  debug            False
+2023-11-10 15:36:16,722   INFO  seed             0
+2023-11-10 15:36:16,723   INFO  num_epochs       30
+2023-11-10 15:36:16,723   INFO  resume_from_checkpoint None
+2023-11-10 15:36:16,724   INFO  batch_size       1
+2023-11-10 15:36:16,724   INFO  val_batch_size   2
+2023-11-10 15:36:16,725   INFO  lr               3e-05
+2023-11-10 15:36:16,725   INFO  feat_dropout     0.4
+2023-11-10 15:36:16,726   INFO  num_warmup_steps 0
+2023-11-10 15:36:16,726   INFO  num_steps_per_epoch 2000
+2023-11-10 15:36:16,727   INFO  gradient_accumulation_step 8
+2023-11-10 15:36:16,727   INFO  precision        amp_bf16
+2023-11-10 15:36:16,727   INFO  workers          0
+2023-11-10 15:36:16,728   INFO  world_size       8
+2023-11-10 15:36:16,728   INFO  local_rank       0
+2023-11-10 15:36:16,729   INFO  dist_url         env://
+2023-11-10 15:36:16,729   INFO  dist_backend     nccl
+2023-11-10 15:36:16,730   INFO  horovod          False
+2023-11-10 15:36:16,730   INFO  no_set_device_rank False
+2023-11-10 15:36:16,730   INFO  output_dir       output/model_without_pretrain
+2023-11-10 15:36:16,731   INFO  max_saved_checkpoints 1
+2023-11-10 15:36:16,732   INFO  save_ckpt_per_epochs 10
+2023-11-10 15:36:16,732   INFO  save_latest_states False
+2023-11-10 15:36:16,732   INFO  save_pred_results False
+2023-11-10 15:36:16,733   INFO  mode             train
+2023-11-10 15:36:16,733   INFO  stage            multi
+2023-11-10 15:36:16,734   INFO  ignoreid         -100
+2023-11-10 15:36:16,734   INFO  enable_og        True
+2023-11-10 15:36:16,735   INFO  enable_summarize True
+2023-11-10 15:36:16,736   INFO  enable_fgr2r     True
+2023-11-10 15:36:16,736   INFO  gen_loss_coef    1.0
+2023-11-10 15:36:16,737   INFO  obj_loss_coef    1.0
+2023-11-10 15:36:16,738   INFO  teacher_forcing_coef 1.0
+2023-11-10 15:36:16,738   INFO  fuse_obj         False
+2023-11-10 15:36:16,739   INFO  multi_endpoints  True
+2023-11-10 15:36:16,740   INFO  path_type        trusted_path
+2023-11-10 15:36:16,740   INFO  test_datasets    ['CVDN', 'SOON', 'R2R', 'REVERIE', 'ScanQA']
+2023-11-10 15:36:16,741   INFO  validation_split val_unseen
+2023-11-10 15:36:16,742   INFO  do_sample        False
+2023-11-10 15:36:16,743   INFO  temperature      1.0
+2023-11-10 15:36:16,743   INFO  max_datapoints   None
+2023-11-10 15:36:16,744   INFO  rank             0
+2023-11-10 15:36:16,745   INFO  distributed      True
+2023-11-10 15:36:16,746   INFO  device           cuda:0
+2023-11-10 15:36:16,746   INFO  image_feat_size  1024
+2023-11-10 15:36:16,747   INFO  obj_feat_size    768
+2023-11-10 15:36:16,748   INFO  angle_feat_size  4
+2023-11-10 15:36:16,749   INFO  enc_full_graph   True
+2023-11-10 15:36:16,749   INFO  expert_policy    spl
+2023-11-10 15:36:16,750   INFO  num_pano_layers  2
+2023-11-10 15:36:16,751   INFO  ----------- Feature -----------
+2023-11-10 15:36:16,752   INFO  cfg.Feature.object_feature_type: 
+2023-11-10 15:36:16,753   INFO  cfg.Feature.angle_feat_size: 4
+2023-11-10 15:36:16,753   INFO  cfg.Feature.max_objects: 70
+2023-11-10 15:36:16,754   INFO  cfg.Feature.image_feat_size: 1024
+2023-11-10 15:36:16,755   INFO  ----------- feature_database -----------
+2023-11-10 15:36:16,756   INFO  cfg.Feature.feature_database.mp3d: data/eva_features/mp3d_EVA02-CLIP-L-14-336.hdf5
+2023-11-10 15:36:16,757   INFO  cfg.Feature.feature_database.scan_qa: data/eva_features/scanqa_EVA02-CLIP-L-14-336.hdf5
+2023-11-10 15:36:16,757   INFO  cfg.Feature.feature_database.coco: data/eva_features/coco_EVA02-CLIP-L-14-336.hdf5
+2023-11-10 15:36:16,758   INFO  cfg.Feature.obj_feat_size: 768
+2023-11-10 15:36:16,759   INFO  ----------- object_database -----------
+2023-11-10 15:36:16,759   INFO  cfg.Feature.object_database.reverie: data/REVERIE/features/obj_gtmax_timm_imagenet_vitb16/
+2023-11-10 15:36:16,760   INFO  cfg.Feature.object_database.soon: data/SOON/features/obj2d_ade20k_timm_vitb16/
+2023-11-10 15:36:16,760   INFO  ----------- Dataset -----------
+2023-11-10 15:36:16,761   INFO  ----------- R2R -----------
+2023-11-10 15:36:16,761   INFO  cfg.Dataset.R2R.DIR: R2R
+2023-11-10 15:36:16,761   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,762   INFO  cfg.Dataset.R2R.SPLIT.train: FGR2R_train.json
+2023-11-10 15:36:16,762   INFO  cfg.Dataset.R2R.SPLIT.val_seen: R2R_val_seen_enc.json
+2023-11-10 15:36:16,763   INFO  cfg.Dataset.R2R.SPLIT.val_unseen: R2R_val_unseen_enc.json
+2023-11-10 15:36:16,763   INFO  cfg.Dataset.R2R.SPLIT.test: R2R_test_enc.json
+2023-11-10 15:36:16,764   INFO  ----------- REVERIE -----------
+2023-11-10 15:36:16,764   INFO  cfg.Dataset.REVERIE.DIR: REVERIE
+2023-11-10 15:36:16,764   INFO  cfg.Dataset.REVERIE.bbox_file: data/REVERIEB/Boxes.json
+2023-11-10 15:36:16,765   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,765   INFO  cfg.Dataset.REVERIE.SPLIT.train: REVERIE_train_enc.json
+2023-11-10 15:36:16,766   INFO  cfg.Dataset.REVERIE.SPLIT.val_seen: REVERIE_val_seen_enc.json
+2023-11-10 15:36:16,766   INFO  cfg.Dataset.REVERIE.SPLIT.val_unseen: REVERIE_val_unseen_enc.json
+2023-11-10 15:36:16,767   INFO  cfg.Dataset.REVERIE.SPLIT.test: REVERIE_test_enc.json
+2023-11-10 15:36:16,767   INFO  ----------- CVDN -----------
+2023-11-10 15:36:16,768   INFO  cfg.Dataset.CVDN.DIR: CVDN
+2023-11-10 15:36:16,768   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,768   INFO  cfg.Dataset.CVDN.SPLIT.train: train.json
+2023-11-10 15:36:16,769   INFO  cfg.Dataset.CVDN.SPLIT.val_seen: val_seen.json
+2023-11-10 15:36:16,769   INFO  cfg.Dataset.CVDN.SPLIT.val_unseen: val_unseen.json
+2023-11-10 15:36:16,770   INFO  cfg.Dataset.CVDN.SPLIT.test: test_cleaned.json
+2023-11-10 15:36:16,770   INFO  ----------- SOON -----------
+2023-11-10 15:36:16,770   INFO  cfg.Dataset.SOON.DIR: SOON
+2023-11-10 15:36:16,771   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,771   INFO  cfg.Dataset.SOON.SPLIT.train: train_enc_pseudo_obj_ade30k_label.jsonl
+2023-11-10 15:36:16,772   INFO  cfg.Dataset.SOON.SPLIT.val_seen: val_unseen_instrs_enc_pseudo_obj_ade30k_label.jsonl
+2023-11-10 15:36:16,772   INFO  cfg.Dataset.SOON.SPLIT.val_unseen: val_unseen_house_enc_pseudo_obj_ade30k_label.jsonl
+2023-11-10 15:36:16,773   INFO  cfg.Dataset.SOON.SPLIT.test: test_v2_enc.jsonl
+2023-11-10 15:36:16,773   INFO  ----------- ScanQA -----------
+2023-11-10 15:36:16,773   INFO  cfg.Dataset.ScanQA.DIR: ScanQA
+2023-11-10 15:36:16,774   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,774   INFO  cfg.Dataset.ScanQA.SPLIT.train: ScanQA_v1.0_train_reformat.json
+2023-11-10 15:36:16,775   INFO  cfg.Dataset.ScanQA.SPLIT.val_unseen: ScanQA_v1.0_val_reformat.json
+2023-11-10 15:36:16,775   INFO  cfg.Dataset.ScanQA.SPLIT.test: ScanQA_v1.0_test_wo_obj_reformat.json
+2023-11-10 15:36:16,776   INFO  ----------- EQA -----------
+2023-11-10 15:36:16,776   INFO  cfg.Dataset.EQA.DIR: EQA_MP3D
+2023-11-10 15:36:16,776   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,777   INFO  cfg.Dataset.EQA.SPLIT.val_unseen: eqa_val_enc.json
+2023-11-10 15:36:16,777   INFO  cfg.Dataset.EQA.ANSWER_VOCAB: data/EQA_MP3D/eqa_answer_vocab.json
+2023-11-10 15:36:16,778   INFO  ----------- R2R_AUG -----------
+2023-11-10 15:36:16,778   INFO  cfg.Dataset.R2R_AUG.DIR: R2R
+2023-11-10 15:36:16,778   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,779   INFO  cfg.Dataset.R2R_AUG.SPLIT.train: R2R_prevalent_aug_train_enc.jsonl
+2023-11-10 15:36:16,779   INFO  ----------- REVERIE_AUG -----------
+2023-11-10 15:36:16,780   INFO  cfg.Dataset.REVERIE_AUG.DIR: REVERIE
+2023-11-10 15:36:16,780   INFO  cfg.Dataset.REVERIE_AUG.bbox_file: BBoxes.json
+2023-11-10 15:36:16,780   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,781   INFO  cfg.Dataset.REVERIE_AUG.SPLIT.train: REVERIE_speaker_aug_enc.jsonl
+2023-11-10 15:36:16,781   INFO  ----------- LLaVA -----------
+2023-11-10 15:36:16,782   INFO  cfg.Dataset.LLaVA.DIR: LLaVA
+2023-11-10 15:36:16,782   INFO  ----------- SPLIT -----------
+2023-11-10 15:36:16,782   INFO  cfg.Dataset.LLaVA.SPLIT.train: detail_23k.json
+2023-11-10 15:36:16,783   INFO  ----------- Pretrain -----------
+2023-11-10 15:36:16,783   INFO  cfg.Pretrain.SOURCE: ['R2R_AUG', 'REVERIE_AUG', 'R2R', 'REVERIE', 'SOON', 'CVDN', 'ScanQA']
+2023-11-10 15:36:16,784   INFO  cfg.Pretrain.Ratio: [20, 2, 1, 1, 1, 1, 1]
+2023-11-10 15:36:16,784   INFO  ----------- LOSS_COEF -----------
+2023-11-10 15:36:16,784   INFO  cfg.Pretrain.LOSS_COEF.R2R_AUG: 1
+2023-11-10 15:36:16,785   INFO  cfg.Pretrain.LOSS_COEF.REVERIE_AUG: 1
+2023-11-10 15:36:16,785   INFO  ----------- Multi -----------
+2023-11-10 15:36:16,786   INFO  cfg.Multi.SOURCE: ['R2R', 'REVERIE', 'CVDN', 'SOON', 'ScanQA', 'LLaVA']
+2023-11-10 15:36:16,786   INFO  cfg.Multi.Ratio: [20, 5, 1, 5, 5, 5]
+2023-11-10 15:36:16,787   INFO  ----------- LOSS_COEF -----------
+2023-11-10 15:36:16,787   INFO  ----------- Model -----------
+2023-11-10 15:36:16,788   INFO  cfg.Model.num_l_layers: 9
+2023-11-10 15:36:16,788   INFO  cfg.Model.num_pano_layers: 2
+2023-11-10 15:36:16,789   INFO  cfg.Model.num_x_layers: 4
+2023-11-10 15:36:16,789   INFO  cfg.Model.graph_sprels: True
+2023-11-10 15:36:16,789   INFO  cfg.Model.fusion: dynamic
+2023-11-10 15:36:16,790   INFO  cfg.Model.enc_full_graph: True
+2023-11-10 15:36:16,790   INFO  cfg.Model.expert_policy: spl
+2023-11-10 15:36:16,791   INFO  ----------- Optim -----------
+2023-11-10 15:36:16,791   INFO  ----------- val_max_action_len -----------
+2023-11-10 15:36:16,791   INFO  cfg.Optim.val_max_action_len.R2R: 15
+2023-11-10 15:36:16,792   INFO  cfg.Optim.val_max_action_len.REVERIE: 15
+2023-11-10 15:36:16,792   INFO  cfg.Optim.val_max_action_len.CVDN: 30
+2023-11-10 15:36:16,793   INFO  cfg.Optim.val_max_action_len.SOON: 20
+2023-11-10 15:36:16,793   INFO  cfg.Optim.val_max_action_len.EQA: 15
+2023-11-10 15:36:16,794   INFO  ----------- train_max_action_len -----------
+2023-11-10 15:36:16,794   INFO  cfg.Optim.train_max_action_len.R2R: 15
+2023-11-10 15:36:16,794   INFO  cfg.Optim.train_max_action_len.REVERIE: 15
+2023-11-10 15:36:16,795   INFO  cfg.Optim.train_max_action_len.CVDN: 15
+2023-11-10 15:36:16,795   INFO  cfg.Optim.train_max_action_len.SOON: 15
+2023-11-10 15:36:16,796   INFO  cfg.Optim.train_max_action_len.EQA: 15
+2023-11-10 15:36:16,796   INFO  cfg.Optim.train_max_action_len.R2R_AUG: 15
+2023-11-10 15:36:16,797   INFO  cfg.Optim.train_max_action_len.REVERIE_AUG: 15
+2023-11-10 15:36:27,335   INFO  [INFO] R2RDataset loaded with 14039 instructions, using splits: train
+2023-11-10 15:36:27,336   INFO  
+- Dataset: load 14039 R2R samples
+- Dataset: load train split: 14039 samples in total
+- Dataset: load train split: 61 scans in total
+2023-11-10 15:36:27,337   INFO  R2R: 14039 samples loaded
+2023-11-10 15:36:34,019   INFO  [INFO] REVERIEDataset loaded with 10466 instructions, using splits: train
+2023-11-10 15:36:34,020   INFO  
+- Dataset: load 10466 REVERIE samples
+- Dataset: load train split: 10466 samples in total
+- Dataset: load train split: 60 scans in total
+2023-11-10 15:36:34,020   INFO  REVERIE: 10466 samples loaded
+2023-11-10 15:36:40,398   INFO  [INFO] CVDNDataset loaded with 4742 instructions, using splits: train
+2023-11-10 15:36:40,398   INFO  
+- Dataset: load 4742 CVDN samples
+- Dataset: load train split: 4742 samples in total
+- Dataset: load train split: 57 scans in total
+2023-11-10 15:36:40,416   INFO  CVDN: 4742 samples loaded
+2023-11-10 15:36:53,004   INFO  [INFO] SOONDataset loaded with 27800 instructions, using splits: train
+2023-11-10 15:36:53,004   INFO  
+- Dataset: load 27800 SOON samples
+- Dataset: load train split: 27800 samples in total
+- Dataset: load train split: 34 scans in total
+2023-11-10 15:36:53,005   INFO  SOON: 27800 samples loaded
+2023-11-10 15:36:53,210   INFO  There are totally 25563 datapoints loaded.
+2023-11-10 15:36:53,215   INFO  ScanQA: 25563 samples loaded
+2023-11-10 15:36:53,352   INFO  There are totally 23240 datapoints loaded.
+2023-11-10 15:36:53,360   INFO  LLaVA: 23240 samples loaded
+2023-11-10 15:36:58,744   INFO  [INFO] CVDNDataset loaded with 907 instructions, using splits: val_unseen
+2023-11-10 15:36:58,745   INFO  
+- Dataset: load 907 CVDN samples
+- Dataset: load val_unseen split: 907 samples in total
+- Dataset: load val_unseen split: 10 scans in total
+2023-11-10 15:36:58,748   INFO  CVDN: 907 samples loaded
+2023-11-10 15:36:59,802   INFO  [INFO] SOONDataset loaded with 3390 instructions, using splits: val_unseen
+2023-11-10 15:36:59,802   INFO  
+- Dataset: load 3390 SOON samples
+- Dataset: load val_unseen split: 3390 samples in total
+- Dataset: load val_unseen split: 5 scans in total
+2023-11-10 15:36:59,803   INFO  SOON: 3390 samples loaded
+2023-11-10 15:37:00,308   INFO  [INFO] R2RDataset loaded with 2349 instructions, using splits: val_unseen
+2023-11-10 15:37:00,309   INFO  
+- Dataset: load 2349 R2R samples
+- Dataset: load val_unseen split: 2349 samples in total
+- Dataset: load val_unseen split: 11 scans in total
+2023-11-10 15:37:00,309   INFO  R2R: 2349 samples loaded
+2023-11-10 15:37:02,556   INFO  [INFO] REVERIEDataset loaded with 3521 instructions, using splits: val_unseen
+2023-11-10 15:37:02,557   INFO  
+- Dataset: load 3521 REVERIE samples
+- Dataset: load val_unseen split: 3521 samples in total
+- Dataset: load val_unseen split: 10 scans in total
+2023-11-10 15:37:02,558   INFO  REVERIE: 3521 samples loaded
+2023-11-10 15:37:02,595   INFO  There are totally 4675 datapoints loaded.
+2023-11-10 15:37:02,596   INFO  ScanQA: 4675 samples loaded
+2023-11-10 15:38:57,717   INFO  model type: torch.bfloat16
+2023-11-10 15:38:57,718   INFO  *************** init model *************** 
+2023-11-10 15:39:02,734   INFO  model initialized with 6773.48 M trainable parameters
+2023-11-10 15:39:09,976   INFO  Training in distributed mode : total_batch_size: 8
+2023-11-10 15:39:09,977   INFO  **************************** Train ****************************
+2023-11-10 16:49:16,016   INFO  ***** train [0] epoch *****wo
+2023-11-10 16:49:16,017   INFO  Loss: 17.99
+Instr_pred: 1.87
+R2R: 22.99
+REVERIE: 21.23
+CVDN: 24.23
+SOON: 26.68
+ScanQA: 1.88
+LLaVA: 1.68
+
+2023-11-10 16:49:16,022   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-10 16:52:04,193   INFO  eval 912 predictions
+2023-11-10 16:52:04,301   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-10 16:58:21,751   INFO  eval 3392 predictions
+2023-11-10 16:58:21,854   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-10 17:00:54,560   INFO  eval 2352 predictions
+2023-11-10 17:00:54,618   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-10 17:05:02,616   INFO  eval 3528 predictions
+2023-11-10 17:05:02,738   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-10 17:15:45,313   INFO  
+[Eval] val_unseen epoch 0
+
+ [Eval] dataset=[CVDN] 
+, lengths: 176.15, nav_error: 17.06, oracle_sr: 50.11
+[Eval] ||| sr: 7.68, spl: 0.99, oracle path_success_rate: 89.47, dist_to_end_reduction: 2.39
+ [Eval] dataset=[SOON] 
+, action_steps: 18.08, steps: 40.88, lengths: 88.76, nav_error: 13.44, oracle_error: 7.47
+[Eval] ||| sr: 5.72, oracle_sr: 19.60, spl: 1.52, det_sr: 0.15, det_spl: 0.05
+ [Eval] dataset=[R2R] 
+, action_steps: 11.27, steps: 23.20, lengths: 50.33, nav_error: 9.22, oracle_error: 3.87
+[Eval] ||| sr: 15.52, oracle_sr: 47.32, spl: 6.65
+ [Eval] dataset=[REVERIE] 
+, action_steps: 11.98, steps: 24.71, lengths: 52.40, nav_error: 9.98, oracle_error: 4.01
+[Eval] ||| sr: 4.00, oracle_sr: 24.80, spl: 1.37, rgs: 0.74, rgspl: 0.23
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 31.27, bleu-2: 18.20, bleu-3: 11.88, bleu-4: 7.14, rouge: 31.40, cider: 56.66, meteor: 12.21, exact_match: 17.59
+2023-11-10 17:15:45,319   INFO  Current Score: 0.2054413479956647
+2023-11-10 17:15:45,320   INFO  Best Score: 0.2054413479956647
+2023-11-10 18:27:15,328   INFO  ***** train [1] epoch *****wo
+2023-11-10 18:27:15,329   INFO  Loss: 15.65
+Instr_pred: 1.66
+R2R: 19.86
+REVERIE: 18.49
+CVDN: 18.78
+SOON: 21.58
+ScanQA: 1.48
+LLaVA: 1.47
+
+2023-11-10 18:27:15,334   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-10 18:29:00,300   INFO  eval 912 predictions
+2023-11-10 18:29:00,347   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-10 18:33:28,663   INFO  eval 3392 predictions
+2023-11-10 18:33:28,737   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-10 18:34:54,908   INFO  eval 2352 predictions
+2023-11-10 18:34:54,953   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-10 18:37:34,386   INFO  eval 3528 predictions
+2023-11-10 18:37:34,483   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-10 18:48:09,305   INFO  
+[Eval] val_unseen epoch 1
+
+ [Eval] dataset=[CVDN] 
+, lengths: 40.72, nav_error: 17.86, oracle_sr: 43.31
+[Eval] ||| sr: 6.36, spl: 3.06, oracle path_success_rate: 75.00, dist_to_end_reduction: 1.61
+ [Eval] dataset=[SOON] 
+, action_steps: 11.29, steps: 12.49, lengths: 22.92, nav_error: 13.54, oracle_error: 7.55
+[Eval] ||| sr: 10.38, oracle_sr: 21.70, spl: 8.72, det_sr: 0.24, det_spl: 0.18
+ [Eval] dataset=[R2R] 
+, action_steps: 5.67, steps: 6.09, lengths: 11.65, nav_error: 9.01, oracle_error: 4.92
+[Eval] ||| sr: 24.32, oracle_sr: 37.16, spl: 21.19
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.61, steps: 7.07, lengths: 13.65, nav_error: 11.19, oracle_error: 5.16
+[Eval] ||| sr: 6.72, oracle_sr: 12.81, spl: 5.78, rgs: 1.53, rgspl: 1.39
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 31.83, bleu-2: 19.40, bleu-3: 13.75, bleu-4: 9.05, rouge: 32.27, cider: 59.91, meteor: 12.90, exact_match: 18.18
+2023-11-10 18:48:09,310   INFO  Current Score: 0.8388645027227783
+2023-11-10 18:48:09,310   INFO  Best Score: 0.8388645027227783
+2023-11-10 18:48:09,412   INFO  Remove Checkpoint at Epoch 0...
+2023-11-10 19:58:30,830   INFO  ***** train [2] epoch *****wo
+2023-11-10 19:58:30,830   INFO  Loss: 13.69
+Instr_pred: 1.56
+R2R: 17.65
+REVERIE: 17.35
+CVDN: 15.55
+SOON: 20.25
+ScanQA: 1.38
+LLaVA: 1.43
+
+2023-11-10 19:58:30,835   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-10 20:00:12,757   INFO  eval 912 predictions
+2023-11-10 20:00:12,803   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-10 20:04:45,223   INFO  eval 3392 predictions
+2023-11-10 20:04:45,302   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-10 20:06:24,022   INFO  eval 2352 predictions
+2023-11-10 20:06:24,070   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-10 20:09:04,998   INFO  eval 3528 predictions
+2023-11-10 20:09:05,094   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-10 20:19:29,780   INFO  
+[Eval] val_unseen epoch 2
+
+ [Eval] dataset=[CVDN] 
+, lengths: 41.38, nav_error: 18.15, oracle_sr: 44.08
+[Eval] ||| sr: 5.92, spl: 3.57, oracle path_success_rate: 74.56, dist_to_end_reduction: 1.37
+ [Eval] dataset=[SOON] 
+, action_steps: 11.59, steps: 13.88, lengths: 24.81, nav_error: 13.27, oracle_error: 7.30
+[Eval] ||| sr: 11.85, oracle_sr: 24.88, spl: 10.42, det_sr: 0.24, det_spl: 0.21
+ [Eval] dataset=[R2R] 
+, action_steps: 6.60, steps: 7.91, lengths: 14.95, nav_error: 8.83, oracle_error: 4.33
+[Eval] ||| sr: 27.51, oracle_sr: 46.34, spl: 24.09
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.62, steps: 7.86, lengths: 15.16, nav_error: 10.44, oracle_error: 4.99
+[Eval] ||| sr: 6.77, oracle_sr: 15.05, spl: 6.08, rgs: 1.90, rgspl: 1.70
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 32.91, bleu-2: 20.05, bleu-3: 13.36, bleu-4: 8.13, rouge: 34.24, cider: 64.47, meteor: 13.41, exact_match: 20.06
+2023-11-10 20:19:29,784   INFO  Current Score: 0.9596369784988444
+2023-11-10 20:19:29,785   INFO  Best Score: 0.9596369784988444
+2023-11-10 20:19:30,121   INFO  Remove Checkpoint at Epoch 1...
+2023-11-10 21:29:25,356   INFO  ***** train [3] epoch *****wo
+2023-11-10 21:29:25,357   INFO  Loss: 12.79
+Instr_pred: 1.51
+R2R: 16.53
+REVERIE: 15.61
+CVDN: 14.09
+SOON: 18.78
+ScanQA: 1.29
+LLaVA: 1.42
+
+2023-11-10 21:29:25,362   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-10 21:31:47,345   INFO  eval 912 predictions
+2023-11-10 21:31:47,398   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-10 21:37:08,070   INFO  eval 3392 predictions
+2023-11-10 21:37:08,154   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-10 21:38:45,663   INFO  eval 2352 predictions
+2023-11-10 21:38:45,709   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-10 21:41:59,331   INFO  eval 3528 predictions
+2023-11-10 21:41:59,430   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-10 21:52:21,913   INFO  
+[Eval] val_unseen epoch 3
+
+ [Eval] dataset=[CVDN] 
+, lengths: 53.45, nav_error: 17.68, oracle_sr: 51.32
+[Eval] ||| sr: 7.13, spl: 3.22, oracle path_success_rate: 75.44, dist_to_end_reduction: 1.73
+ [Eval] dataset=[SOON] 
+, action_steps: 14.12, steps: 15.61, lengths: 29.33, nav_error: 13.12, oracle_error: 5.98
+[Eval] ||| sr: 12.74, oracle_sr: 38.56, spl: 9.57, det_sr: 0.53, det_spl: 0.39
+ [Eval] dataset=[R2R] 
+, action_steps: 6.61, steps: 7.30, lengths: 14.07, nav_error: 7.70, oracle_error: 3.71
+[Eval] ||| sr: 32.31, oracle_sr: 55.06, spl: 27.89
+ [Eval] dataset=[REVERIE] 
+, action_steps: 8.41, steps: 10.20, lengths: 19.83, nav_error: 10.42, oracle_error: 3.99
+[Eval] ||| sr: 9.61, oracle_sr: 28.94, spl: 7.70, rgs: 1.98, rgspl: 1.56
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 32.19, bleu-2: 21.02, bleu-3: 15.59, bleu-4: 10.52, rouge: 31.47, cider: 59.36, meteor: 12.34, exact_match: 17.24
+2023-11-10 21:52:21,920   INFO  Current Score: 1.0351860649742393
+2023-11-10 21:52:21,920   INFO  Best Score: 1.0351860649742393
+2023-11-10 21:52:22,728   INFO  Remove Checkpoint at Epoch 2...
+2023-11-10 23:02:10,243   INFO  ***** train [4] epoch *****wo
+2023-11-10 23:02:10,244   INFO  Loss: 11.45
+Instr_pred: 1.52
+R2R: 14.34
+REVERIE: 14.81
+CVDN: 13.82
+SOON: 16.96
+ScanQA: 1.35
+LLaVA: 1.41
+
+2023-11-10 23:02:10,248   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-10 23:03:56,398   INFO  eval 912 predictions
+2023-11-10 23:03:56,446   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-10 23:08:32,701   INFO  eval 3392 predictions
+2023-11-10 23:08:32,796   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-10 23:10:14,054   INFO  eval 2352 predictions
+2023-11-10 23:10:14,101   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-10 23:13:07,377   INFO  eval 3528 predictions
+2023-11-10 23:13:07,475   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-10 23:23:37,816   INFO  
+[Eval] val_unseen epoch 4
+
+ [Eval] dataset=[CVDN] 
+, lengths: 48.15, nav_error: 15.79, oracle_sr: 50.11
+[Eval] ||| sr: 9.32, spl: 5.50, oracle path_success_rate: 82.46, dist_to_end_reduction: 3.75
+ [Eval] dataset=[SOON] 
+, action_steps: 11.76, steps: 14.55, lengths: 27.57, nav_error: 9.48, oracle_error: 5.68
+[Eval] ||| sr: 22.49, oracle_sr: 38.74, spl: 18.11, det_sr: 1.09, det_spl: 0.87
+ [Eval] dataset=[R2R] 
+, action_steps: 6.81, steps: 7.78, lengths: 15.39, nav_error: 5.51, oracle_error: 2.49
+[Eval] ||| sr: 50.17, oracle_sr: 70.96, spl: 43.05
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.25, steps: 8.60, lengths: 17.13, nav_error: 7.92, oracle_error: 3.51
+[Eval] ||| sr: 22.82, oracle_sr: 39.77, spl: 18.31, rgs: 4.05, rgspl: 3.39
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 34.46, bleu-2: 22.93, bleu-3: 17.27, bleu-4: 11.99, rouge: 34.18, cider: 67.53, meteor: 13.81, exact_match: 19.27
+2023-11-10 23:23:37,820   INFO  Current Score: 1.8987451960498372
+2023-11-10 23:23:37,821   INFO  Best Score: 1.8987451960498372
+2023-11-10 23:23:38,780   INFO  Remove Checkpoint at Epoch 3...
+2023-11-11 00:33:08,213   INFO  ***** train [5] epoch *****wo
+2023-11-11 00:33:08,214   INFO  Loss: 10.74
+Instr_pred: 1.50
+R2R: 13.24
+REVERIE: 12.29
+CVDN: 11.56
+SOON: 17.51
+ScanQA: 1.31
+LLaVA: 1.40
+
+2023-11-11 00:33:08,219   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 00:35:18,920   INFO  eval 912 predictions
+2023-11-11 00:35:18,975   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 00:40:11,205   INFO  eval 3392 predictions
+2023-11-11 00:40:11,307   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 00:42:03,758   INFO  eval 2352 predictions
+2023-11-11 00:42:03,806   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 00:45:12,656   INFO  eval 3528 predictions
+2023-11-11 00:45:12,756   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 00:55:33,990   INFO  
+[Eval] val_unseen epoch 5
+
+ [Eval] dataset=[CVDN] 
+, lengths: 58.12, nav_error: 15.19, oracle_sr: 59.87
+[Eval] ||| sr: 9.65, spl: 6.23, oracle path_success_rate: 87.94, dist_to_end_reduction: 4.52
+ [Eval] dataset=[SOON] 
+, action_steps: 12.75, steps: 15.48, lengths: 28.57, nav_error: 9.05, oracle_error: 5.12
+[Eval] ||| sr: 26.92, oracle_sr: 45.34, spl: 21.98, det_sr: 1.06, det_spl: 0.85
+ [Eval] dataset=[R2R] 
+, action_steps: 7.63, steps: 9.13, lengths: 17.99, nav_error: 5.57, oracle_error: 2.02
+[Eval] ||| sr: 50.00, oracle_sr: 77.81, spl: 41.85
+ [Eval] dataset=[REVERIE] 
+, action_steps: 8.13, steps: 10.10, lengths: 19.98, nav_error: 7.01, oracle_error: 2.64
+[Eval] ||| sr: 25.91, oracle_sr: 54.73, spl: 20.43, rgs: 4.08, rgspl: 3.35
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 31.97, bleu-2: 20.38, bleu-3: 14.70, bleu-4: 10.32, rouge: 34.24, cider: 64.06, meteor: 13.17, exact_match: 20.21
+2023-11-11 00:55:33,995   INFO  Current Score: 2.0819621523188605
+2023-11-11 00:55:33,996   INFO  Best Score: 2.0819621523188605
+2023-11-11 00:55:34,880   INFO  Remove Checkpoint at Epoch 4...
+2023-11-11 02:04:59,871   INFO  ***** train [6] epoch *****wo
+2023-11-11 02:04:59,872   INFO  Loss: 9.56
+Instr_pred: 1.43
+R2R: 11.38
+REVERIE: 12.08
+CVDN: 13.17
+SOON: 15.21
+ScanQA: 1.26
+LLaVA: 1.38
+
+2023-11-11 02:04:59,877   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 02:07:00,947   INFO  eval 912 predictions
+2023-11-11 02:07:00,998   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 02:11:34,506   INFO  eval 3392 predictions
+2023-11-11 02:11:34,606   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 02:13:17,881   INFO  eval 2352 predictions
+2023-11-11 02:13:17,929   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 02:16:17,414   INFO  eval 3528 predictions
+2023-11-11 02:16:17,512   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 02:27:06,588   INFO  
+[Eval] val_unseen epoch 6
+
+ [Eval] dataset=[CVDN] 
+, lengths: 49.91, nav_error: 14.90, oracle_sr: 57.89
+[Eval] ||| sr: 10.75, spl: 6.69, oracle path_success_rate: 86.73, dist_to_end_reduction: 4.72
+ [Eval] dataset=[SOON] 
+, action_steps: 11.73, steps: 14.71, lengths: 26.74, nav_error: 9.21, oracle_error: 5.54
+[Eval] ||| sr: 26.12, oracle_sr: 38.65, spl: 22.11, det_sr: 1.42, det_spl: 1.18
+ [Eval] dataset=[R2R] 
+, action_steps: 6.80, steps: 8.91, lengths: 17.52, nav_error: 4.52, oracle_error: 2.05
+[Eval] ||| sr: 57.27, oracle_sr: 75.55, spl: 48.86
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.63, steps: 10.31, lengths: 20.17, nav_error: 5.99, oracle_error: 2.53
+[Eval] ||| sr: 32.48, oracle_sr: 51.08, spl: 26.51, rgs: 6.52, rgspl: 5.34
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 33.26, bleu-2: 21.12, bleu-3: 14.61, bleu-4: 10.20, rouge: 35.18, cider: 66.15, meteor: 13.63, exact_match: 20.96
+2023-11-11 02:27:06,594   INFO  Current Score: 2.3698654691623577
+2023-11-11 02:27:06,595   INFO  Best Score: 2.3698654691623577
+2023-11-11 02:27:07,310   INFO  Remove Checkpoint at Epoch 5...
+2023-11-11 03:36:24,107   INFO  ***** train [7] epoch *****wo
+2023-11-11 03:36:24,108   INFO  Loss: 9.05
+Instr_pred: 1.38
+R2R: 10.58
+REVERIE: 10.83
+CVDN: 13.88
+SOON: 15.33
+ScanQA: 1.22
+LLaVA: 1.39
+
+2023-11-11 03:36:24,114   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 03:38:22,440   INFO  eval 912 predictions
+2023-11-11 03:38:22,490   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 03:43:26,164   INFO  eval 3392 predictions
+2023-11-11 03:43:26,275   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 03:45:00,731   INFO  eval 2352 predictions
+2023-11-11 03:45:00,778   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 03:47:52,120   INFO  eval 3528 predictions
+2023-11-11 03:47:52,220   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 03:59:08,114   INFO  
+[Eval] val_unseen epoch 7
+
+ [Eval] dataset=[CVDN] 
+, lengths: 50.61, nav_error: 15.03, oracle_sr: 56.14
+[Eval] ||| sr: 9.87, spl: 6.06, oracle path_success_rate: 87.39, dist_to_end_reduction: 4.42
+ [Eval] dataset=[SOON] 
+, action_steps: 12.95, steps: 16.79, lengths: 32.49, nav_error: 8.18, oracle_error: 4.46
+[Eval] ||| sr: 29.95, oracle_sr: 49.82, spl: 22.70, det_sr: 1.53, det_spl: 1.19
+ [Eval] dataset=[R2R] 
+, action_steps: 5.99, steps: 7.11, lengths: 13.95, nav_error: 4.07, oracle_error: 2.21
+[Eval] ||| sr: 63.10, oracle_sr: 73.77, spl: 55.91
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.19, steps: 9.18, lengths: 17.79, nav_error: 5.73, oracle_error: 2.68
+[Eval] ||| sr: 35.23, oracle_sr: 50.51, spl: 28.48, rgs: 6.97, rgspl: 5.54
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 37.92, bleu-2: 24.18, bleu-3: 17.01, bleu-4: 10.81, rouge: 37.91, cider: 72.41, meteor: 14.78, exact_match: 21.62
+2023-11-11 03:59:08,119   INFO  Current Score: 2.563413089316161
+2023-11-11 03:59:08,119   INFO  Best Score: 2.563413089316161
+2023-11-11 03:59:09,034   INFO  Remove Checkpoint at Epoch 6...
+2023-11-11 05:08:03,104   INFO  ***** train [8] epoch *****wo
+2023-11-11 05:08:03,107   INFO  Loss: 8.49
+Instr_pred: 1.42
+R2R: 10.24
+REVERIE: 10.29
+CVDN: 10.97
+SOON: 12.96
+ScanQA: 1.25
+LLaVA: 1.38
+
+2023-11-11 05:08:03,112   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 05:09:39,566   INFO  eval 912 predictions
+2023-11-11 05:09:39,607   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 05:14:07,761   INFO  eval 3392 predictions
+2023-11-11 05:14:07,870   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 05:15:44,172   INFO  eval 2352 predictions
+2023-11-11 05:15:44,218   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 05:18:29,736   INFO  eval 3528 predictions
+2023-11-11 05:18:29,835   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 05:28:57,026   INFO  
+[Eval] val_unseen epoch 8
+
+ [Eval] dataset=[CVDN] 
+, lengths: 35.32, nav_error: 14.11, oracle_sr: 50.11
+[Eval] ||| sr: 12.17, spl: 9.35, oracle path_success_rate: 82.46, dist_to_end_reduction: 5.40
+ [Eval] dataset=[SOON] 
+, action_steps: 11.46, steps: 13.26, lengths: 24.98, nav_error: 8.31, oracle_error: 5.15
+[Eval] ||| sr: 32.02, oracle_sr: 43.93, spl: 26.32, det_sr: 1.92, det_spl: 1.68
+ [Eval] dataset=[R2R] 
+, action_steps: 6.38, steps: 7.30, lengths: 14.47, nav_error: 4.12, oracle_error: 1.97
+[Eval] ||| sr: 63.56, oracle_sr: 77.25, spl: 55.07
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.94, steps: 8.13, lengths: 16.03, nav_error: 6.14, oracle_error: 2.94
+[Eval] ||| sr: 37.41, oracle_sr: 51.02, spl: 30.56, rgs: 7.88, rgspl: 6.42
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 36.55, bleu-2: 22.83, bleu-3: 16.07, bleu-4: 11.46, rouge: 37.97, cider: 72.45, meteor: 14.72, exact_match: 23.10
+2023-11-11 05:28:57,031   INFO  Current Score: 2.7423240251839434
+2023-11-11 05:28:57,031   INFO  Best Score: 2.7423240251839434
+2023-11-11 05:28:57,947   INFO  Remove Checkpoint at Epoch 7...
+2023-11-11 06:37:22,706   INFO  ***** train [9] epoch *****wo
+2023-11-11 06:37:22,707   INFO  Loss: 8.25
+Instr_pred: 1.36
+R2R: 9.94
+REVERIE: 9.62
+CVDN: 11.23
+SOON: 12.53
+ScanQA: 1.31
+LLaVA: 1.36
+
+2023-11-11 06:37:22,713   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 06:39:29,891   INFO  eval 912 predictions
+2023-11-11 06:39:29,941   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 06:44:01,940   INFO  eval 3392 predictions
+2023-11-11 06:44:02,043   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 06:45:38,164   INFO  eval 2352 predictions
+2023-11-11 06:45:38,210   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 06:48:17,048   INFO  eval 3528 predictions
+2023-11-11 06:48:17,150   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 06:58:39,731   INFO  
+[Eval] val_unseen epoch 9
+
+ [Eval] dataset=[CVDN] 
+, lengths: 50.59, nav_error: 14.39, oracle_sr: 60.42
+[Eval] ||| sr: 12.72, spl: 8.69, oracle path_success_rate: 85.75, dist_to_end_reduction: 5.08
+ [Eval] dataset=[SOON] 
+, action_steps: 11.55, steps: 14.13, lengths: 26.00, nav_error: 8.75, oracle_error: 5.37
+[Eval] ||| sr: 28.12, oracle_sr: 40.54, spl: 23.72, det_sr: 1.68, det_spl: 1.43
+ [Eval] dataset=[R2R] 
+, action_steps: 6.30, steps: 7.69, lengths: 15.07, nav_error: 4.07, oracle_error: 2.01
+[Eval] ||| sr: 65.05, oracle_sr: 76.45, spl: 56.44
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.51, steps: 7.93, lengths: 15.51, nav_error: 5.37, oracle_error: 2.77
+[Eval] ||| sr: 40.28, oracle_sr: 48.33, spl: 34.84, rgs: 12.36, rgspl: 10.58
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 34.53, bleu-2: 22.18, bleu-3: 16.14, bleu-4: 11.15, rouge: 35.87, cider: 68.57, meteor: 13.78, exact_match: 21.86
+2023-11-11 06:58:39,736   INFO  Current Score: 2.7842633462069175
+2023-11-11 06:58:39,736   INFO  Best Score: 2.7842633462069175
+2023-11-11 06:58:40,642   INFO  Remove Checkpoint at Epoch 8...
+2023-11-11 08:05:08,586   INFO  ***** train [10] epoch *****wo
+2023-11-11 08:05:08,588   INFO  Loss: 7.26
+Instr_pred: 1.37
+R2R: 8.62
+REVERIE: 8.65
+CVDN: 10.76
+SOON: 12.28
+ScanQA: 1.19
+LLaVA: 1.37
+
+2023-11-11 08:05:08,592   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 08:07:16,485   INFO  eval 912 predictions
+2023-11-11 08:07:16,540   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 08:12:44,567   INFO  eval 3392 predictions
+2023-11-11 08:12:44,679   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 08:14:33,969   INFO  eval 2352 predictions
+2023-11-11 08:14:34,017   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 08:17:48,456   INFO  eval 3528 predictions
+2023-11-11 08:17:48,563   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 08:28:33,734   INFO  
+[Eval] val_unseen epoch 10
+
+ [Eval] dataset=[CVDN] 
+, lengths: 53.11, nav_error: 14.59, oracle_sr: 58.44
+[Eval] ||| sr: 13.38, spl: 8.38, oracle path_success_rate: 86.40, dist_to_end_reduction: 4.96
+ [Eval] dataset=[SOON] 
+, action_steps: 14.38, steps: 18.19, lengths: 34.25, nav_error: 8.87, oracle_error: 4.10
+[Eval] ||| sr: 28.83, oracle_sr: 55.45, spl: 23.03, det_sr: 1.53, det_spl: 1.18
+ [Eval] dataset=[R2R] 
+, action_steps: 7.17, steps: 8.69, lengths: 17.03, nav_error: 4.51, oracle_error: 1.77
+[Eval] ||| sr: 59.48, oracle_sr: 79.55, spl: 50.95
+ [Eval] dataset=[REVERIE] 
+, action_steps: 8.36, steps: 10.81, lengths: 21.43, nav_error: 6.48, oracle_error: 2.29
+[Eval] ||| sr: 32.31, oracle_sr: 57.65, spl: 25.94, rgs: 12.70, rgspl: 10.26
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 36.07, bleu-2: 23.59, bleu-3: 16.60, bleu-4: 11.63, rouge: 37.23, cider: 72.31, meteor: 14.51, exact_match: 22.54
+2023-11-11 08:28:33,739   INFO  Current Score: 2.423573091709828
+2023-11-11 08:28:33,740   INFO  Best Score: 2.7842633462069175
+2023-11-11 09:35:31,579   INFO  ***** train [11] epoch *****wo
+2023-11-11 09:35:31,580   INFO  Loss: 6.69
+Instr_pred: 1.29
+R2R: 7.94
+REVERIE: 6.84
+CVDN: 10.80
+SOON: 10.73
+ScanQA: 1.22
+LLaVA: 1.36
+
+2023-11-11 09:35:31,585   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 09:37:38,147   INFO  eval 912 predictions
+2023-11-11 09:37:38,199   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 09:42:25,560   INFO  eval 3392 predictions
+2023-11-11 09:42:25,672   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 09:44:06,133   INFO  eval 2352 predictions
+2023-11-11 09:44:06,180   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 09:46:59,977   INFO  eval 3528 predictions
+2023-11-11 09:47:00,069   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 09:58:15,505   INFO  
+[Eval] val_unseen epoch 11
+
+ [Eval] dataset=[CVDN] 
+, lengths: 53.34, nav_error: 14.69, oracle_sr: 59.10
+[Eval] ||| sr: 12.83, spl: 9.08, oracle path_success_rate: 87.72, dist_to_end_reduction: 4.93
+ [Eval] dataset=[SOON] 
+, action_steps: 12.48, steps: 16.04, lengths: 29.72, nav_error: 8.38, oracle_error: 4.94
+[Eval] ||| sr: 31.22, oracle_sr: 46.34, spl: 25.29, det_sr: 2.65, det_spl: 2.33
+ [Eval] dataset=[R2R] 
+, action_steps: 6.68, steps: 8.63, lengths: 16.80, nav_error: 4.05, oracle_error: 1.88
+[Eval] ||| sr: 64.29, oracle_sr: 78.78, spl: 54.74
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.32, steps: 9.93, lengths: 19.15, nav_error: 5.73, oracle_error: 2.64
+[Eval] ||| sr: 37.64, oracle_sr: 50.26, spl: 30.89, rgs: 15.36, rgspl: 12.46
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 34.92, bleu-2: 22.80, bleu-3: 16.40, bleu-4: 11.60, rouge: 36.73, cider: 71.39, meteor: 14.36, exact_match: 22.82
+2023-11-11 09:58:15,510   INFO  Current Score: 2.7070905860610823
+2023-11-11 09:58:15,510   INFO  Best Score: 2.7842633462069175
+2023-11-11 11:03:40,880   INFO  ***** train [12] epoch *****wo
+2023-11-11 11:03:40,881   INFO  Loss: 6.49
+Instr_pred: 1.26
+R2R: 7.64
+REVERIE: 7.94
+CVDN: 11.58
+SOON: 10.02
+ScanQA: 1.34
+LLaVA: 1.34
+
+2023-11-11 11:03:40,886   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 11:05:29,568   INFO  eval 912 predictions
+2023-11-11 11:05:29,616   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 11:10:43,306   INFO  eval 3392 predictions
+2023-11-11 11:10:43,421   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 11:12:26,973   INFO  eval 2352 predictions
+2023-11-11 11:12:27,020   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 11:15:23,657   INFO  eval 3528 predictions
+2023-11-11 11:15:23,761   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 11:25:48,721   INFO  
+[Eval] val_unseen epoch 12
+
+ [Eval] dataset=[CVDN] 
+, lengths: 44.71, nav_error: 13.98, oracle_sr: 52.96
+[Eval] ||| sr: 16.45, spl: 11.76, oracle path_success_rate: 84.43, dist_to_end_reduction: 5.54
+ [Eval] dataset=[SOON] 
+, action_steps: 13.72, steps: 17.51, lengths: 33.07, nav_error: 8.26, oracle_error: 4.32
+[Eval] ||| sr: 33.14, oracle_sr: 54.39, spl: 25.13, det_sr: 2.71, det_spl: 2.16
+ [Eval] dataset=[R2R] 
+, action_steps: 6.91, steps: 8.49, lengths: 16.49, nav_error: 4.13, oracle_error: 1.70
+[Eval] ||| sr: 62.97, oracle_sr: 80.36, spl: 53.39
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.40, steps: 9.11, lengths: 17.69, nav_error: 5.40, oracle_error: 2.39
+[Eval] ||| sr: 40.90, oracle_sr: 57.00, spl: 33.68, rgs: 19.22, rgspl: 15.88
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 37.80, bleu-2: 23.95, bleu-3: 16.58, bleu-4: 10.79, rouge: 38.38, cider: 73.67, meteor: 14.90, exact_match: 22.35
+2023-11-11 11:25:48,725   INFO  Current Score: 2.7546049548077773
+2023-11-11 11:25:48,726   INFO  Best Score: 2.7842633462069175
+2023-11-11 12:30:47,251   INFO  ***** train [13] epoch *****wo
+2023-11-11 12:30:47,252   INFO  Loss: 5.97
+Instr_pred: 1.26
+R2R: 6.87
+REVERIE: 7.60
+CVDN: 10.11
+SOON: 9.64
+ScanQA: 1.14
+LLaVA: 1.33
+
+2023-11-11 12:30:47,257   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 12:32:36,498   INFO  eval 912 predictions
+2023-11-11 12:32:36,544   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 12:37:26,818   INFO  eval 3392 predictions
+2023-11-11 12:37:26,929   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 12:39:04,231   INFO  eval 2352 predictions
+2023-11-11 12:39:04,276   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 12:41:56,999   INFO  eval 3528 predictions
+2023-11-11 12:41:57,101   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 12:52:32,705   INFO  
+[Eval] val_unseen epoch 13
+
+ [Eval] dataset=[CVDN] 
+, lengths: 42.82, nav_error: 14.19, oracle_sr: 54.93
+[Eval] ||| sr: 14.69, spl: 10.68, oracle path_success_rate: 86.62, dist_to_end_reduction: 5.33
+ [Eval] dataset=[SOON] 
+, action_steps: 12.46, steps: 14.66, lengths: 27.78, nav_error: 8.31, oracle_error: 4.59
+[Eval] ||| sr: 31.81, oracle_sr: 50.91, spl: 25.52, det_sr: 2.54, det_spl: 2.14
+ [Eval] dataset=[R2R] 
+, action_steps: 6.50, steps: 7.36, lengths: 14.33, nav_error: 3.78, oracle_error: 1.69
+[Eval] ||| sr: 66.11, oracle_sr: 80.10, spl: 56.82
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.30, steps: 8.92, lengths: 17.27, nav_error: 6.10, oracle_error: 2.75
+[Eval] ||| sr: 35.43, oracle_sr: 53.49, spl: 28.74, rgs: 18.62, rgspl: 15.13
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 35.41, bleu-2: 23.07, bleu-3: 16.42, bleu-4: 10.92, rouge: 37.25, cider: 72.48, meteor: 14.49, exact_match: 22.63
+2023-11-11 12:52:32,710   INFO  Current Score: 2.691768069068322
+2023-11-11 12:52:32,710   INFO  Best Score: 2.7842633462069175
+2023-11-11 13:56:38,736   INFO  ***** train [14] epoch *****wo
+2023-11-11 13:56:38,737   INFO  Loss: 5.50
+Instr_pred: 1.18
+R2R: 6.36
+REVERIE: 6.43
+CVDN: 9.51
+SOON: 9.12
+ScanQA: 1.12
+LLaVA: 1.34
+
+2023-11-11 13:56:38,742   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 13:58:29,656   INFO  eval 912 predictions
+2023-11-11 13:58:29,702   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 14:03:25,979   INFO  eval 3392 predictions
+2023-11-11 14:03:26,094   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 14:05:04,308   INFO  eval 2352 predictions
+2023-11-11 14:05:04,355   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 14:07:52,323   INFO  eval 3528 predictions
+2023-11-11 14:07:52,426   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 14:18:54,414   INFO  
+[Eval] val_unseen epoch 14
+
+ [Eval] dataset=[CVDN] 
+, lengths: 42.28, nav_error: 14.23, oracle_sr: 57.46
+[Eval] ||| sr: 14.36, spl: 9.76, oracle path_success_rate: 85.86, dist_to_end_reduction: 5.21
+ [Eval] dataset=[SOON] 
+, action_steps: 12.76, steps: 16.51, lengths: 30.94, nav_error: 8.12, oracle_error: 4.43
+[Eval] ||| sr: 34.55, oracle_sr: 53.48, spl: 27.14, det_sr: 2.80, det_spl: 2.31
+ [Eval] dataset=[R2R] 
+, action_steps: 6.57, steps: 7.86, lengths: 15.37, nav_error: 3.99, oracle_error: 1.81
+[Eval] ||| sr: 65.14, oracle_sr: 78.91, spl: 55.58
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.10, steps: 9.09, lengths: 17.62, nav_error: 6.08, oracle_error: 2.75
+[Eval] ||| sr: 37.22, oracle_sr: 50.82, spl: 30.43, rgs: 19.30, rgspl: 15.68
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 37.22, bleu-2: 24.43, bleu-3: 17.56, bleu-4: 12.05, rouge: 38.02, cider: 74.14, meteor: 14.83, exact_match: 22.63
+2023-11-11 14:18:54,418   INFO  Current Score: 2.7782890171663777
+2023-11-11 14:18:54,419   INFO  Best Score: 2.7842633462069175
+2023-11-11 15:22:34,736   INFO  ***** train [15] epoch *****wo
+2023-11-11 15:22:34,737   INFO  Loss: 5.19
+Instr_pred: 1.18
+R2R: 5.98
+REVERIE: 5.68
+CVDN: 9.87
+SOON: 8.65
+ScanQA: 1.19
+LLaVA: 1.33
+
+2023-11-11 15:22:34,743   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 15:24:12,002   INFO  eval 912 predictions
+2023-11-11 15:24:12,043   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 15:29:16,146   INFO  eval 3392 predictions
+2023-11-11 15:29:16,262   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 15:30:56,190   INFO  eval 2352 predictions
+2023-11-11 15:30:56,236   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 15:33:48,121   INFO  eval 3528 predictions
+2023-11-11 15:33:48,225   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 15:43:43,135   INFO  
+[Eval] val_unseen epoch 15
+
+ [Eval] dataset=[CVDN] 
+, lengths: 35.72, nav_error: 14.41, oracle_sr: 51.54
+[Eval] ||| sr: 15.35, spl: 11.94, oracle path_success_rate: 81.69, dist_to_end_reduction: 5.19
+ [Eval] dataset=[SOON] 
+, action_steps: 13.18, steps: 16.58, lengths: 31.81, nav_error: 8.24, oracle_error: 4.35
+[Eval] ||| sr: 32.75, oracle_sr: 52.80, spl: 25.43, det_sr: 3.42, det_spl: 2.73
+ [Eval] dataset=[R2R] 
+, action_steps: 6.58, steps: 7.82, lengths: 15.38, nav_error: 4.02, oracle_error: 1.73
+[Eval] ||| sr: 63.90, oracle_sr: 79.42, spl: 54.84
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.20, steps: 8.72, lengths: 17.05, nav_error: 5.72, oracle_error: 2.58
+[Eval] ||| sr: 39.26, oracle_sr: 54.00, spl: 32.71, rgs: 21.60, rgspl: 17.88
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 33.90, bleu-2: 22.57, bleu-3: 16.67, bleu-4: 11.18, rouge: 36.39, cider: 70.17, meteor: 14.15, exact_match: 22.54
+2023-11-11 15:43:43,139   INFO  Current Score: 2.7638790196584333
+2023-11-11 15:43:43,140   INFO  Best Score: 2.7842633462069175
+2023-11-11 16:46:44,109   INFO  ***** train [16] epoch *****wo
+2023-11-11 16:46:44,110   INFO  Loss: 4.96
+Instr_pred: 1.12
+R2R: 5.36
+REVERIE: 6.16
+CVDN: 9.55
+SOON: 8.47
+ScanQA: 1.08
+LLaVA: 1.33
+
+2023-11-11 16:46:44,115   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 16:48:24,589   INFO  eval 912 predictions
+2023-11-11 16:48:24,632   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 16:53:10,021   INFO  eval 3392 predictions
+2023-11-11 16:53:10,133   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 16:54:45,760   INFO  eval 2352 predictions
+2023-11-11 16:54:45,806   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 16:57:28,254   INFO  eval 3528 predictions
+2023-11-11 16:57:28,357   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 17:07:58,838   INFO  
+[Eval] val_unseen epoch 16
+
+ [Eval] dataset=[CVDN] 
+, lengths: 38.24, nav_error: 13.80, oracle_sr: 53.84
+[Eval] ||| sr: 14.36, spl: 10.63, oracle path_success_rate: 83.88, dist_to_end_reduction: 5.69
+ [Eval] dataset=[SOON] 
+, action_steps: 12.30, steps: 14.93, lengths: 28.21, nav_error: 8.29, oracle_error: 4.68
+[Eval] ||| sr: 34.26, oracle_sr: 49.06, spl: 27.18, det_sr: 2.56, det_spl: 2.01
+ [Eval] dataset=[R2R] 
+, action_steps: 6.40, steps: 7.92, lengths: 15.40, nav_error: 4.06, oracle_error: 1.89
+[Eval] ||| sr: 64.07, oracle_sr: 78.36, spl: 54.84
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.80, steps: 8.84, lengths: 17.30, nav_error: 5.39, oracle_error: 2.62
+[Eval] ||| sr: 40.56, oracle_sr: 51.30, spl: 33.56, rgs: 21.15, rgspl: 17.26
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 35.83, bleu-2: 23.65, bleu-3: 17.32, bleu-4: 12.19, rouge: 37.69, cider: 74.26, meteor: 14.71, exact_match: 23.23
+2023-11-11 17:07:58,843   INFO  Current Score: 2.852713624801863
+2023-11-11 17:07:58,843   INFO  Best Score: 2.852713624801863
+2023-11-11 17:07:59,152   INFO  Remove Checkpoint at Epoch 9...
+2023-11-11 18:10:51,298   INFO  ***** train [17] epoch *****wo
+2023-11-11 18:10:51,299   INFO  Loss: 4.61
+Instr_pred: 1.14
+R2R: 5.42
+REVERIE: 4.52
+CVDN: 8.74
+SOON: 7.87
+ScanQA: 1.07
+LLaVA: 1.36
+
+2023-11-11 18:10:51,303   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 18:12:27,838   INFO  eval 912 predictions
+2023-11-11 18:12:27,880   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 18:17:22,491   INFO  eval 3392 predictions
+2023-11-11 18:17:22,608   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 18:19:00,127   INFO  eval 2352 predictions
+2023-11-11 18:19:00,174   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 18:21:54,263   INFO  eval 3528 predictions
+2023-11-11 18:21:54,366   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 18:31:46,450   INFO  
+[Eval] val_unseen epoch 17
+
+ [Eval] dataset=[CVDN] 
+, lengths: 36.08, nav_error: 13.88, oracle_sr: 52.19
+[Eval] ||| sr: 17.76, spl: 13.55, oracle path_success_rate: 82.89, dist_to_end_reduction: 5.56
+ [Eval] dataset=[SOON] 
+, action_steps: 12.69, steps: 16.19, lengths: 30.76, nav_error: 8.52, oracle_error: 4.76
+[Eval] ||| sr: 32.08, oracle_sr: 48.82, spl: 25.14, det_sr: 3.30, det_spl: 2.65
+ [Eval] dataset=[R2R] 
+, action_steps: 6.23, steps: 7.82, lengths: 15.16, nav_error: 3.61, oracle_error: 1.79
+[Eval] ||| sr: 67.35, oracle_sr: 79.29, spl: 58.14
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.22, steps: 10.08, lengths: 19.65, nav_error: 5.54, oracle_error: 2.49
+[Eval] ||| sr: 41.98, oracle_sr: 55.56, spl: 34.64, rgs: 23.53, rgspl: 19.18
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 34.57, bleu-2: 22.91, bleu-3: 16.56, bleu-4: 11.74, rouge: 37.03, cider: 72.64, meteor: 14.27, exact_match: 23.55
+2023-11-11 18:31:46,456   INFO  Current Score: 2.8607748980123517
+2023-11-11 18:31:46,456   INFO  Best Score: 2.8607748980123517
+2023-11-11 18:31:46,671   INFO  Remove Checkpoint at Epoch 16...
+2023-11-11 19:34:36,997   INFO  ***** train [18] epoch *****wo
+2023-11-11 19:34:36,998   INFO  Loss: 4.12
+Instr_pred: 1.03
+R2R: 4.33
+REVERIE: 4.97
+CVDN: 11.62
+SOON: 6.66
+ScanQA: 1.13
+LLaVA: 1.34
+
+2023-11-11 19:34:37,003   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 19:36:32,876   INFO  eval 912 predictions
+2023-11-11 19:36:32,925   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 19:41:16,736   INFO  eval 3392 predictions
+2023-11-11 19:41:16,854   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 19:42:54,073   INFO  eval 2352 predictions
+2023-11-11 19:42:54,119   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 19:45:42,553   INFO  eval 3528 predictions
+2023-11-11 19:45:42,655   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 19:55:52,096   INFO  
+[Eval] val_unseen epoch 18
+
+ [Eval] dataset=[CVDN] 
+, lengths: 46.73, nav_error: 13.42, oracle_sr: 58.88
+[Eval] ||| sr: 16.34, spl: 10.73, oracle path_success_rate: 87.83, dist_to_end_reduction: 6.14
+ [Eval] dataset=[SOON] 
+, action_steps: 12.24, steps: 14.86, lengths: 27.96, nav_error: 8.15, oracle_error: 4.64
+[Eval] ||| sr: 35.26, oracle_sr: 50.59, spl: 27.78, det_sr: 3.39, det_spl: 2.80
+ [Eval] dataset=[R2R] 
+, action_steps: 6.47, steps: 7.87, lengths: 15.39, nav_error: 3.81, oracle_error: 1.76
+[Eval] ||| sr: 65.22, oracle_sr: 78.91, spl: 56.22
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.06, steps: 9.20, lengths: 17.81, nav_error: 5.49, oracle_error: 2.51
+[Eval] ||| sr: 41.92, oracle_sr: 56.09, spl: 34.85, rgs: 23.75, rgspl: 19.73
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 35.42, bleu-2: 22.88, bleu-3: 16.19, bleu-4: 10.86, rouge: 36.39, cider: 71.18, meteor: 14.21, exact_match: 21.73
+2023-11-11 19:55:52,100   INFO  Current Score: 2.933602881000173
+2023-11-11 19:55:52,101   INFO  Best Score: 2.933602881000173
+2023-11-11 19:55:52,300   INFO  Remove Checkpoint at Epoch 17...
+2023-11-11 20:58:50,705   INFO  ***** train [19] epoch *****wo
+2023-11-11 20:58:50,706   INFO  Loss: 4.13
+Instr_pred: 1.05
+R2R: 4.74
+REVERIE: 4.34
+CVDN: 10.16
+SOON: 5.84
+ScanQA: 1.11
+LLaVA: 1.34
+
+2023-11-11 20:58:50,710   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 21:00:13,210   INFO  eval 912 predictions
+2023-11-11 21:00:13,248   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 21:05:09,049   INFO  eval 3392 predictions
+2023-11-11 21:05:09,168   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 21:06:47,083   INFO  eval 2352 predictions
+2023-11-11 21:06:47,129   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 21:09:25,026   INFO  eval 3528 predictions
+2023-11-11 21:09:25,126   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 21:19:30,340   INFO  
+[Eval] val_unseen epoch 19
+
+ [Eval] dataset=[CVDN] 
+, lengths: 26.42, nav_error: 13.09, oracle_sr: 49.89
+[Eval] ||| sr: 20.83, spl: 16.71, oracle path_success_rate: 80.70, dist_to_end_reduction: 6.38
+ [Eval] dataset=[SOON] 
+, action_steps: 12.63, steps: 15.08, lengths: 28.29, nav_error: 8.32, oracle_error: 4.54
+[Eval] ||| sr: 33.61, oracle_sr: 51.30, spl: 25.88, det_sr: 3.24, det_spl: 2.58
+ [Eval] dataset=[R2R] 
+, action_steps: 6.60, steps: 7.98, lengths: 15.58, nav_error: 3.62, oracle_error: 1.66
+[Eval] ||| sr: 66.58, oracle_sr: 81.16, spl: 55.87
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.54, steps: 7.81, lengths: 15.10, nav_error: 5.45, oracle_error: 2.77
+[Eval] ||| sr: 40.05, oracle_sr: 50.34, spl: 33.32, rgs: 22.28, rgspl: 18.64
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 31.79, bleu-2: 21.14, bleu-3: 15.15, bleu-4: 10.20, rouge: 33.87, cider: 65.96, meteor: 13.03, exact_match: 21.20
+2023-11-11 21:19:30,344   INFO  Current Score: 2.8145403759509566
+2023-11-11 21:19:30,345   INFO  Best Score: 2.933602881000173
+2023-11-11 22:22:02,286   INFO  ***** train [20] epoch *****wo
+2023-11-11 22:22:02,287   INFO  Loss: 3.99
+Instr_pred: 1.00
+R2R: 4.12
+REVERIE: 4.59
+CVDN: 9.62
+SOON: 6.83
+ScanQA: 1.13
+LLaVA: 1.33
+
+2023-11-11 22:22:02,292   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 22:23:38,994   INFO  eval 912 predictions
+2023-11-11 22:23:39,035   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 22:28:30,969   INFO  eval 3392 predictions
+2023-11-11 22:28:31,089   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 22:30:11,491   INFO  eval 2352 predictions
+2023-11-11 22:30:11,538   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 22:33:02,365   INFO  eval 3528 predictions
+2023-11-11 22:33:02,469   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-11 22:43:12,651   INFO  
+[Eval] val_unseen epoch 20
+
+ [Eval] dataset=[CVDN] 
+, lengths: 34.07, nav_error: 13.92, oracle_sr: 52.19
+[Eval] ||| sr: 16.78, spl: 12.34, oracle path_success_rate: 83.00, dist_to_end_reduction: 5.73
+ [Eval] dataset=[SOON] 
+, action_steps: 12.62, steps: 15.83, lengths: 29.87, nav_error: 8.00, oracle_error: 4.50
+[Eval] ||| sr: 35.32, oracle_sr: 50.94, spl: 27.60, det_sr: 2.98, det_spl: 2.37
+ [Eval] dataset=[R2R] 
+, action_steps: 6.60, steps: 8.42, lengths: 16.65, nav_error: 3.66, oracle_error: 1.64
+[Eval] ||| sr: 66.71, oracle_sr: 81.04, spl: 55.68
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.09, steps: 8.94, lengths: 17.70, nav_error: 5.67, oracle_error: 2.60
+[Eval] ||| sr: 40.67, oracle_sr: 53.32, spl: 33.67, rgs: 22.93, rgspl: 18.93
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 35.65, bleu-2: 22.64, bleu-3: 15.77, bleu-4: 10.45, rouge: 36.98, cider: 71.05, meteor: 14.19, exact_match: 22.05
+2023-11-11 22:43:12,656   INFO  Current Score: 2.8855035046735327
+2023-11-11 22:43:12,656   INFO  Best Score: 2.933602881000173
+2023-11-11 23:44:48,258   INFO  ***** train [21] epoch *****wo
+2023-11-11 23:44:48,259   INFO  Loss: 3.67
+Instr_pred: 1.00
+R2R: 3.99
+REVERIE: 3.73
+CVDN: 8.83
+SOON: 6.17
+ScanQA: 1.06
+LLaVA: 1.31
+
+2023-11-11 23:44:48,264   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-11 23:46:14,836   INFO  eval 912 predictions
+2023-11-11 23:46:14,876   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-11 23:50:44,609   INFO  eval 3392 predictions
+2023-11-11 23:50:44,723   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-11 23:52:21,024   INFO  eval 2352 predictions
+2023-11-11 23:52:21,071   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-11 23:55:07,454   INFO  eval 3528 predictions
+2023-11-11 23:55:07,557   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 00:05:18,819   INFO  
+[Eval] val_unseen epoch 21
+
+ [Eval] dataset=[CVDN] 
+, lengths: 31.25, nav_error: 13.20, oracle_sr: 51.43
+[Eval] ||| sr: 18.97, spl: 16.48, oracle path_success_rate: 82.57, dist_to_end_reduction: 6.26
+ [Eval] dataset=[SOON] 
+, action_steps: 11.47, steps: 13.58, lengths: 26.08, nav_error: 8.18, oracle_error: 4.98
+[Eval] ||| sr: 33.40, oracle_sr: 45.05, spl: 27.79, det_sr: 2.89, det_spl: 2.42
+ [Eval] dataset=[R2R] 
+, action_steps: 6.41, steps: 7.76, lengths: 15.18, nav_error: 3.71, oracle_error: 1.74
+[Eval] ||| sr: 65.77, oracle_sr: 79.55, spl: 56.74
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.92, steps: 8.78, lengths: 17.21, nav_error: 5.74, oracle_error: 2.72
+[Eval] ||| sr: 39.97, oracle_sr: 50.99, spl: 33.75, rgs: 21.60, rgspl: 18.21
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 35.51, bleu-2: 23.28, bleu-3: 16.92, bleu-4: 11.19, rouge: 36.91, cider: 72.95, meteor: 14.37, exact_match: 22.24
+2023-11-12 00:05:18,823   INFO  Current Score: 2.912322732131168
+2023-11-12 00:05:18,824   INFO  Best Score: 2.933602881000173
+2023-11-12 01:06:11,179   INFO  ***** train [22] epoch *****wo
+2023-11-12 01:06:11,181   INFO  Loss: 3.56
+Instr_pred: 0.96
+R2R: 3.72
+REVERIE: 3.88
+CVDN: 10.10
+SOON: 6.23
+ScanQA: 1.05
+LLaVA: 1.34
+
+2023-11-12 01:06:11,186   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 01:08:05,998   INFO  eval 912 predictions
+2023-11-12 01:08:06,045   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 01:13:13,854   INFO  eval 3392 predictions
+2023-11-12 01:13:13,979   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 01:14:54,085   INFO  eval 2352 predictions
+2023-11-12 01:14:54,132   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 01:17:48,982   INFO  eval 3528 predictions
+2023-11-12 01:17:49,082   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 01:27:51,114   INFO  
+[Eval] val_unseen epoch 22
+
+ [Eval] dataset=[CVDN] 
+, lengths: 45.27, nav_error: 14.25, oracle_sr: 58.88
+[Eval] ||| sr: 18.09, spl: 13.77, oracle path_success_rate: 85.64, dist_to_end_reduction: 5.40
+ [Eval] dataset=[SOON] 
+, action_steps: 13.29, steps: 17.37, lengths: 33.82, nav_error: 8.48, oracle_error: 4.48
+[Eval] ||| sr: 32.52, oracle_sr: 52.51, spl: 24.74, det_sr: 3.36, det_spl: 2.63
+ [Eval] dataset=[R2R] 
+, action_steps: 6.72, steps: 8.84, lengths: 17.33, nav_error: 3.61, oracle_error: 1.55
+[Eval] ||| sr: 67.56, oracle_sr: 81.76, spl: 56.30
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.26, steps: 9.64, lengths: 18.80, nav_error: 6.07, oracle_error: 2.82
+[Eval] ||| sr: 38.38, oracle_sr: 53.85, spl: 31.61, rgs: 21.37, rgspl: 17.26
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 37.47, bleu-2: 25.12, bleu-3: 18.41, bleu-4: 12.94, rouge: 38.75, cider: 76.55, meteor: 15.31, exact_match: 23.01
+2023-11-12 01:27:51,119   INFO  Current Score: 2.73201876758847
+2023-11-12 01:27:51,120   INFO  Best Score: 2.933602881000173
+2023-11-12 02:28:56,975   INFO  ***** train [23] epoch *****wo
+2023-11-12 02:28:56,976   INFO  Loss: 3.51
+Instr_pred: 0.96
+R2R: 3.54
+REVERIE: 3.93
+CVDN: 9.16
+SOON: 6.51
+ScanQA: 1.09
+LLaVA: 1.31
+
+2023-11-12 02:28:56,981   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 02:31:03,679   INFO  eval 912 predictions
+2023-11-12 02:31:03,729   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 02:36:05,680   INFO  eval 3392 predictions
+2023-11-12 02:36:05,802   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 02:37:52,210   INFO  eval 2352 predictions
+2023-11-12 02:37:52,259   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 02:40:56,176   INFO  eval 3528 predictions
+2023-11-12 02:40:56,278   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 02:50:53,713   INFO  
+[Eval] val_unseen epoch 23
+
+ [Eval] dataset=[CVDN] 
+, lengths: 49.62, nav_error: 13.90, oracle_sr: 59.65
+[Eval] ||| sr: 16.01, spl: 10.97, oracle path_success_rate: 86.18, dist_to_end_reduction: 5.72
+ [Eval] dataset=[SOON] 
+, action_steps: 13.09, steps: 17.00, lengths: 32.82, nav_error: 8.00, oracle_error: 4.13
+[Eval] ||| sr: 35.61, oracle_sr: 55.40, spl: 27.49, det_sr: 3.98, det_spl: 3.18
+ [Eval] dataset=[R2R] 
+, action_steps: 7.07, steps: 9.25, lengths: 18.41, nav_error: 3.77, oracle_error: 1.46
+[Eval] ||| sr: 64.84, oracle_sr: 83.42, spl: 53.74
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.71, steps: 10.22, lengths: 20.29, nav_error: 6.27, oracle_error: 2.56
+[Eval] ||| sr: 37.10, oracle_sr: 54.05, spl: 30.96, rgs: 20.27, rgspl: 16.76
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 33.66, bleu-2: 23.13, bleu-3: 16.84, bleu-4: 11.76, rouge: 35.60, cider: 70.19, meteor: 13.79, exact_match: 22.18
+2023-11-12 02:50:53,718   INFO  Current Score: 2.7749700719436103
+2023-11-12 02:50:53,718   INFO  Best Score: 2.933602881000173
+2023-11-12 03:52:41,369   INFO  ***** train [24] epoch *****wo
+2023-11-12 03:52:41,370   INFO  Loss: 3.40
+Instr_pred: 0.92
+R2R: 3.55
+REVERIE: 3.77
+CVDN: 6.62
+SOON: 5.75
+ScanQA: 1.07
+LLaVA: 1.29
+
+2023-11-12 03:52:41,375   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 03:54:14,137   INFO  eval 912 predictions
+2023-11-12 03:54:14,179   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 03:58:57,788   INFO  eval 3392 predictions
+2023-11-12 03:58:57,902   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 04:00:30,280   INFO  eval 2352 predictions
+2023-11-12 04:00:30,326   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 04:03:22,672   INFO  eval 3528 predictions
+2023-11-12 04:03:22,773   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 04:13:16,093   INFO  
+[Eval] val_unseen epoch 24
+
+ [Eval] dataset=[CVDN] 
+, lengths: 31.58, nav_error: 13.27, oracle_sr: 51.32
+[Eval] ||| sr: 18.09, spl: 14.29, oracle path_success_rate: 81.03, dist_to_end_reduction: 6.23
+ [Eval] dataset=[SOON] 
+, action_steps: 12.08, steps: 14.83, lengths: 27.90, nav_error: 8.05, oracle_error: 4.70
+[Eval] ||| sr: 35.88, oracle_sr: 49.47, spl: 27.74, det_sr: 2.86, det_spl: 2.23
+ [Eval] dataset=[R2R] 
+, action_steps: 6.23, steps: 7.61, lengths: 14.80, nav_error: 3.41, oracle_error: 1.71
+[Eval] ||| sr: 68.66, oracle_sr: 79.80, spl: 58.37
+ [Eval] dataset=[REVERIE] 
+, action_steps: 7.08, steps: 9.01, lengths: 17.32, nav_error: 5.68, oracle_error: 2.67
+[Eval] ||| sr: 39.00, oracle_sr: 53.06, spl: 31.32, rgs: 21.17, rgspl: 16.92
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 36.27, bleu-2: 23.45, bleu-3: 16.42, bleu-4: 10.64, rouge: 38.16, cider: 74.06, meteor: 14.87, exact_match: 23.31
+2023-11-12 04:13:16,098   INFO  Current Score: 2.871224339699113
+2023-11-12 04:13:16,099   INFO  Best Score: 2.933602881000173
+2023-11-12 05:13:29,910   INFO  ***** train [25] epoch *****wo
+2023-11-12 05:13:29,911   INFO  Loss: 3.17
+Instr_pred: 0.88
+R2R: 3.14
+REVERIE: 3.88
+CVDN: 7.95
+SOON: 5.63
+ScanQA: 1.11
+LLaVA: 1.33
+
+2023-11-12 05:13:29,916   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 05:15:11,523   INFO  eval 912 predictions
+2023-11-12 05:15:11,566   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 05:19:57,119   INFO  eval 3392 predictions
+2023-11-12 05:19:57,240   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 05:21:31,298   INFO  eval 2352 predictions
+2023-11-12 05:21:31,344   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 05:24:17,643   INFO  eval 3528 predictions
+2023-11-12 05:24:17,742   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 05:34:24,765   INFO  
+[Eval] val_unseen epoch 25
+
+ [Eval] dataset=[CVDN] 
+, lengths: 36.84, nav_error: 13.62, oracle_sr: 53.29
+[Eval] ||| sr: 17.21, spl: 12.87, oracle path_success_rate: 82.57, dist_to_end_reduction: 5.91
+ [Eval] dataset=[SOON] 
+, action_steps: 12.31, steps: 15.27, lengths: 29.14, nav_error: 8.14, oracle_error: 4.69
+[Eval] ||| sr: 35.44, oracle_sr: 48.61, spl: 28.09, det_sr: 3.57, det_spl: 2.81
+ [Eval] dataset=[R2R] 
+, action_steps: 6.26, steps: 7.47, lengths: 14.57, nav_error: 3.71, oracle_error: 1.87
+[Eval] ||| sr: 67.13, oracle_sr: 78.10, spl: 57.85
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.80, steps: 8.28, lengths: 16.04, nav_error: 5.24, oracle_error: 2.61
+[Eval] ||| sr: 44.56, oracle_sr: 53.74, spl: 36.63, rgs: 24.86, rgspl: 20.33
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 36.76, bleu-2: 24.29, bleu-3: 17.47, bleu-4: 11.59, rouge: 38.17, cider: 74.04, meteor: 14.68, exact_match: 23.29
+2023-11-12 05:34:24,769   INFO  Current Score: 3.020851147062505
+2023-11-12 05:34:24,769   INFO  Best Score: 3.020851147062505
+2023-11-12 05:34:25,062   INFO  Remove Checkpoint at Epoch 18...
+2023-11-12 06:34:53,059   INFO  ***** train [26] epoch *****wo
+2023-11-12 06:34:53,060   INFO  Loss: 3.12
+Instr_pred: 0.88
+R2R: 3.24
+REVERIE: 3.59
+CVDN: 8.80
+SOON: 5.30
+ScanQA: 1.03
+LLaVA: 1.32
+
+2023-11-12 06:34:53,065   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 06:36:31,584   INFO  eval 912 predictions
+2023-11-12 06:36:31,628   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 06:41:26,989   INFO  eval 3392 predictions
+2023-11-12 06:41:27,117   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 06:43:04,765   INFO  eval 2352 predictions
+2023-11-12 06:43:04,812   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 06:45:49,890   INFO  eval 3528 predictions
+2023-11-12 06:45:49,992   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 06:56:02,637   INFO  
+[Eval] val_unseen epoch 26
+
+ [Eval] dataset=[CVDN] 
+, lengths: 37.78, nav_error: 13.58, oracle_sr: 51.32
+[Eval] ||| sr: 18.31, spl: 14.45, oracle path_success_rate: 82.57, dist_to_end_reduction: 5.91
+ [Eval] dataset=[SOON] 
+, action_steps: 12.74, steps: 15.80, lengths: 30.15, nav_error: 7.69, oracle_error: 4.21
+[Eval] ||| sr: 37.65, oracle_sr: 55.75, spl: 28.35, det_sr: 4.72, det_spl: 3.70
+ [Eval] dataset=[R2R] 
+, action_steps: 6.55, steps: 8.24, lengths: 16.15, nav_error: 3.59, oracle_error: 1.65
+[Eval] ||| sr: 67.43, oracle_sr: 80.57, spl: 56.77
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.92, steps: 8.35, lengths: 16.27, nav_error: 5.72, oracle_error: 2.84
+[Eval] ||| sr: 42.74, oracle_sr: 52.41, spl: 34.88, rgs: 23.92, rgspl: 19.75
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 34.66, bleu-2: 23.10, bleu-3: 16.57, bleu-4: 11.22, rouge: 36.71, cider: 71.24, meteor: 14.27, exact_match: 22.74
+2023-11-12 06:56:02,642   INFO  Current Score: 2.9645990874121173
+2023-11-12 06:56:02,643   INFO  Best Score: 3.020851147062505
+2023-11-12 07:56:03,035   INFO  ***** train [27] epoch *****wo
+2023-11-12 07:56:03,036   INFO  Loss: 2.78
+Instr_pred: 0.84
+R2R: 3.12
+REVERIE: 3.06
+CVDN: 5.21
+SOON: 4.08
+ScanQA: 0.99
+LLaVA: 1.32
+
+2023-11-12 07:56:03,040   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 07:57:23,021   INFO  eval 912 predictions
+2023-11-12 07:57:23,058   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 08:01:58,744   INFO  eval 3392 predictions
+2023-11-12 08:01:58,865   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 08:03:31,888   INFO  eval 2352 predictions
+2023-11-12 08:03:31,935   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 08:06:06,645   INFO  eval 3528 predictions
+2023-11-12 08:06:06,743   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 08:16:05,505   INFO  
+[Eval] val_unseen epoch 27
+
+ [Eval] dataset=[CVDN] 
+, lengths: 27.06, nav_error: 12.05, oracle_sr: 46.71
+[Eval] ||| sr: 20.07, spl: 16.62, oracle path_success_rate: 80.37, dist_to_end_reduction: 7.27
+ [Eval] dataset=[SOON] 
+, action_steps: 11.77, steps: 14.58, lengths: 27.92, nav_error: 7.89, oracle_error: 4.72
+[Eval] ||| sr: 36.62, oracle_sr: 48.53, spl: 28.88, det_sr: 4.04, det_spl: 3.20
+ [Eval] dataset=[R2R] 
+, action_steps: 6.20, steps: 7.65, lengths: 14.98, nav_error: 3.62, oracle_error: 1.79
+[Eval] ||| sr: 67.39, oracle_sr: 79.21, spl: 57.50
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.44, steps: 7.73, lengths: 15.09, nav_error: 5.39, oracle_error: 2.80
+[Eval] ||| sr: 42.40, oracle_sr: 50.74, spl: 35.36, rgs: 24.18, rgspl: 20.27
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 36.28, bleu-2: 23.60, bleu-3: 16.82, bleu-4: 11.33, rouge: 37.83, cider: 74.19, meteor: 14.89, exact_match: 22.93
+2023-11-12 08:16:05,510   INFO  Current Score: 3.010187248785704
+2023-11-12 08:16:05,510   INFO  Best Score: 3.020851147062505
+2023-11-12 09:16:44,416   INFO  ***** train [28] epoch *****wo
+2023-11-12 09:16:44,417   INFO  Loss: 2.80
+Instr_pred: 0.83
+R2R: 3.00
+REVERIE: 2.96
+CVDN: 6.96
+SOON: 4.02
+ScanQA: 1.03
+LLaVA: 1.31
+
+2023-11-12 09:16:44,422   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 09:18:25,391   INFO  eval 912 predictions
+2023-11-12 09:18:25,435   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 09:23:07,547   INFO  eval 3392 predictions
+2023-11-12 09:23:07,668   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 09:24:42,385   INFO  eval 2352 predictions
+2023-11-12 09:24:42,431   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 09:27:23,978   INFO  eval 3528 predictions
+2023-11-12 09:27:24,075   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 09:37:34,487   INFO  
+[Eval] val_unseen epoch 28
+
+ [Eval] dataset=[CVDN] 
+, lengths: 37.70, nav_error: 13.19, oracle_sr: 51.97
+[Eval] ||| sr: 18.42, spl: 14.81, oracle path_success_rate: 84.32, dist_to_end_reduction: 6.47
+ [Eval] dataset=[SOON] 
+, action_steps: 12.08, steps: 15.23, lengths: 28.83, nav_error: 7.78, oracle_error: 4.55
+[Eval] ||| sr: 37.38, oracle_sr: 50.83, spl: 29.00, det_sr: 4.04, det_spl: 3.10
+ [Eval] dataset=[R2R] 
+, action_steps: 6.16, steps: 7.40, lengths: 14.43, nav_error: 3.69, oracle_error: 1.91
+[Eval] ||| sr: 67.30, oracle_sr: 77.59, spl: 57.67
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.58, steps: 7.87, lengths: 15.29, nav_error: 5.32, oracle_error: 2.78
+[Eval] ||| sr: 42.74, oracle_sr: 50.71, spl: 35.32, rgs: 23.72, rgspl: 19.32
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 35.83, bleu-2: 23.74, bleu-3: 16.99, bleu-4: 11.58, rouge: 37.09, cider: 72.69, meteor: 14.70, exact_match: 22.48
+2023-11-12 09:37:34,492   INFO  Current Score: 3.0164113888054365
+2023-11-12 09:37:34,492   INFO  Best Score: 3.020851147062505
+2023-11-12 10:37:20,004   INFO  ***** train [29] epoch *****wo
+2023-11-12 10:37:20,005   INFO  Loss: 2.67
+Instr_pred: 0.80
+R2R: 2.72
+REVERIE: 3.43
+CVDN: 5.01
+SOON: 4.35
+ScanQA: 0.94
+LLaVA: 1.33
+
+2023-11-12 10:37:20,009   INFO  ***** validate val_unseen split on CVDN task *****
+2023-11-12 10:38:59,792   INFO  eval 912 predictions
+2023-11-12 10:38:59,835   INFO  ***** validate val_unseen split on SOON task *****
+2023-11-12 10:43:49,919   INFO  eval 3392 predictions
+2023-11-12 10:43:50,042   INFO  ***** validate val_unseen split on R2R task *****
+2023-11-12 10:45:21,035   INFO  eval 2352 predictions
+2023-11-12 10:45:21,083   INFO  ***** validate val_unseen split on REVERIE task *****
+2023-11-12 10:48:01,326   INFO  eval 3528 predictions
+2023-11-12 10:48:01,422   INFO  ***** validate val_unseen split on ScanQA task *****
+2023-11-12 10:58:01,858   INFO  
+[Eval] val_unseen epoch 29
+
+ [Eval] dataset=[CVDN] 
+, lengths: 35.69, nav_error: 13.16, oracle_sr: 53.73
+[Eval] ||| sr: 19.41, spl: 14.73, oracle path_success_rate: 84.10, dist_to_end_reduction: 6.44
+ [Eval] dataset=[SOON] 
+, action_steps: 12.47, steps: 15.68, lengths: 29.57, nav_error: 7.93, oracle_error: 4.50
+[Eval] ||| sr: 36.91, oracle_sr: 52.71, spl: 28.23, det_sr: 4.10, det_spl: 3.27
+ [Eval] dataset=[R2R] 
+, action_steps: 6.04, steps: 7.15, lengths: 13.98, nav_error: 3.59, oracle_error: 1.88
+[Eval] ||| sr: 66.84, oracle_sr: 77.81, spl: 57.98
+ [Eval] dataset=[REVERIE] 
+, action_steps: 6.59, steps: 8.04, lengths: 15.61, nav_error: 5.89, oracle_error: 2.98
+[Eval] ||| sr: 38.38, oracle_sr: 47.76, spl: 32.06, rgs: 21.66, rgspl: 17.95
+ [Eval] dataset=[ScanQA] 
+, bleu-1: 37.81, bleu-2: 24.64, bleu-3: 17.48, bleu-4: 11.48, rouge: 38.29, cider: 75.34, meteor: 15.18, exact_match: 22.39
+2023-11-12 10:58:01,863   INFO  Current Score: 2.9037651010109133
+2023-11-12 10:58:01,863   INFO  Best Score: 3.020851147062505
+2023-11-12 10:58:01,864   INFO  Best Results:
+2023-11-12 10:58:01,864   INFO  {'CVDN': {'lengths': 36.84235037266977, 'nav_error': 13.624027830765414, 'oracle_sr': 53.289473684210535, 'sr': 17.214912280701753, 'spl': 12.871319995651747, 'oracle path_success_rate': 82.56578947368422, 'dist_to_end_reduction': 5.908678780899996}, 'SOON': {'action_steps': 12.313384433962264, 'steps': 15.272110849056604, 'lengths': 29.14491201329852, 'nav_error': 8.135173725019618, 'oracle_error': 4.6867687742047694, 'sr': 35.43632075471698, 'oracle_sr': 48.61438679245283, 'spl': 28.086520844977798, 'det_sr': 3.5672169811320757, 'det_spl': 2.805781427912756}, 'R2R': {'action_steps': 6.262755102040816, 'steps': 7.469387755102041, 'lengths': 14.574246253606287, 'nav_error': 3.706376998423655, 'oracle_error': 1.8662797453152895, 'sr': 67.1343537414966, 'oracle_sr': 78.10374149659864, 'spl': 57.85038028157836}, 'REVERIE': {'action_steps': 6.796485260770975, 'steps': 8.27579365079365, 'lengths': 16.043363682616206, 'nav_error': 5.242778266701147, 'oracle_error': 2.6138606267224724, 'sr': 44.5578231292517, 'oracle_sr': 53.74149659863946, 'spl': 36.62997819730082, 'rgs': 24.85827664399093, 'rgspl': 20.326449571783066}, 'ScanQA': {'bleu-1': 36.76115167540572, 'bleu-2': 24.285568483535716, 'bleu-3': 17.4717363033682, 'bleu-4': 11.590525379335762, 'rouge': 38.17450835460555, 'cider': 74.03708653016542, 'meteor': 14.682614798596697, 'exact_match': 23.29059829059829}}
