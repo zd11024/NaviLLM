@@ -1,11 +1,27 @@
 # Towards Learning a Generalist Model for Embodied Navigation
-[![ArXiv](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/2312.02010)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![torch](https://img.shields.io/badge/pytorch-%3E=1.10-red?logo=pytorch)](https://pytorch.org/)
 
-This repository contains the codes for our paper "Towards Learning a Generalist Model for Embodied Navigation".
 
-Authors: Duo Zheng<sup>1,2*</sup>, Shijia Huang<sup>1*</sup>, Lin Zhao<sup>3,4</sup>, Yiwu Zhong<sup>1</sup> and Liwei Wang<sup>1&ddagger;</sup>
+<div align="center" margin-bottom="3em">
+    <a href="https://arxiv.org/abs/2312.02010" target="_blank">
+    <img src="https://img.shields.io/badge/Paper-arXiv-green" alt="Paper arXiv"></a>
+    <a href="https://opensource.org/licenses/MIT" target="_blank">
+    <img src="https://img.shields.io/badge/pytorch-%3E=1.10-red?logo=pytorch" alt="Pytorch"></a>
+    <a href="https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc" target="_blank">
+    <img src="https://img.shields.io/badge/Data-NaviLLM-orange" alt="Data"></a>
+    <a href="https://huggingface.co/zd11024/NaviLLM" target="_blank">
+    <img src="https://img.shields.io/badge/Model-NaviLLM-blue" alt="Model"></a>
+    <a href="https://opensource.org/licenses/MIT" target="_blank">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License"></a>
+
+</div>
+&nbsp
+
+<div align="center" margin-bottom="3em">
+<a target="_blank" href="https://github.com/zd11024">Duo Zheng<sup>1,2*</sup></a>,
+<a target="_blank" href="https://sega-hsj.github.io/">Shijia Huang<sup>1*</sup></a>, 
+<a target="_blank" href="https://github.com/MuMuJun97">Lin Zhao<sup>3,4</sup></a>, 
+<a target="_blank" href="https://pages.cs.wisc.edu/~yiwuzhong/">Yiwu Zhong<sup>1</sup></a> and 
+<a target="_blank" href="https://lwwangcse.github.io/">Liwei Wang<sup>1&ddagger;</sup></a>
 
 <sup>*</sup>Equal contribution.
 <sup>&ddagger;</sup> Corresponding author.
@@ -16,29 +32,47 @@ Authors: Duo Zheng<sup>1,2*</sup>, Shijia Huang<sup>1*</sup>, Lin Zhao<sup>3,4</
 <sup>3</sup>Centre for Perceptual and Interactive Intelligence<br>
 <sup>4</sup>Beijing Institute of Technology<br>
 </strong>
+</div>
+&nbsp;
+
+Building a generalist agent that can interact with the world is an ultimate goal for humans, thus spurring the research for embodied navigation, where an agent is required to navigate according to instructions or respond to queries. Despite the major progress attained, previous works primarily focus on task-specific agents and lack generalizability to unseen scenarios. Recently, LLMs have presented remarkable capabilities across various fields, and provided a promising opportunity for embodied navigation. Drawing on this, we propose the first generalist model for embodied navigation, *NaviLLM*. It adapts LLMs to embodied navigation by introducing schema-based instruction. The schema-based instruction flexibly casts various tasks into generation problems, thereby unifying a wide range of tasks. This approach allows us to integrate diverse data sources from various datasets into the training, equipping *NaviLLM* with a wide range of capabilities required by embodied navigation. We conduct extensive experiments to evaluate the performance and generalizability of our model. The experimental results demonstrate that our unified model achieves state-of-the-art performance on CVDN, SOON, and ScanQA. Specifically, it surpasses the previous stats-of-the-art method by a significant margin of **29%** in goal progress on CVDN. Moreover, our model also demonstrates strong generalizability and presents impressive results on unseen tasks, e.g., embodied question answering and 3D captioning.
+
+<div align="center" margin-bottom="3em">
+
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/visual-navigation-on-cooperative-vision-and-1)](https://paperswithcode.com/sota/visual-navigation-on-cooperative-vision-and-1?p=towards-learning-a-generalist-model-for)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/visual-navigation-on-room-to-room-1)](https://paperswithcode.com/sota/visual-navigation-on-room-to-room-1?p=towards-learning-a-generalist-model-for)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/3d-question-answering-3d-qa-on-scanqa-test-w)](https://paperswithcode.com/sota/3d-question-answering-3d-qa-on-scanqa-test-w?p=towards-learning-a-generalist-model-for)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/visual-navigation-on-soon-test)](https://paperswithcode.com/sota/visual-navigation-on-soon-test?p=towards-learning-a-generalist-model-for)
+
+</div>
+
+<!-- This repository contains the codes for our paper "Towards Learning a Generalist Model for Embodied Navigation". -->
 
 ## Updates
+- Dec 21, we have refactored our codebase to make it clearer and more flexible. 
 - Dec 13, we release the model checkpoints at this [link](https://huggingface.co/zd11024/NaviLLM).
 - Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
 - Dec 5, our paper is released.
 - Nov 28, we make our code public.
 
-## Overview
-Building a generalist agent that can interact with the world is an ultimate goal for humans, thus spurring the research for embodied navigation, where an agent is required to navigate according to instructions or respond to queries. Despite the major progress attained, previous works primarily focus on task-specific agents and lack generalizability to unseen scenarios. Recently, LLMs have presented remarkable capabilities across various fields, and provided a promising opportunity for embodied navigation. Drawing on this, we propose the first generalist model for embodied navigation, *NaviLLM*. It adapts LLMs to embodied navigation by introducing schema-based instruction. The schema-based instruction flexibly casts various tasks into generation problems, thereby unifying a wide range of tasks. This approach allows us to integrate diverse data sources from various datasets into the training, equipping *NaviLLM* with a wide range of capabilities required by embodied navigation. We conduct extensive experiments to evaluate the performance and generalizability of our model. The experimental results demonstrate that our unified model achieves state-of-the-art performance on CVDN, SOON, and ScanQA. Specifically, it surpasses the previous stats-of-the-art method by a significant margin of **29%** in goal progress on CVDN. Moreover, our model also demonstrates strong generalizability and presents impressive results on unseen tasks, e.g., embodied question answering and 3D captioning.
+## Features
+- Support multiple VLN tasks (CVDN, SOON, R2R, and REVERIE), 3D QA (ScanQA) and LLaVA instruction tuning in a multi-task framework.
+- Allow addinng new tasks by customizing the dataset and agent class.
+- Enable to design prompts for tasks flexibly.
 
+
+## Method
 <p align="center">
-    <img src="figs/model.jpg" width="95%"><br>
+    <img src="assets/model.jpg" width="95%"><br>
 </p>
+
+We propose schema-based instruction and design a series of schemas (e.g., descriptions of tasks, visual observation, and navigation history), based on the characteristics of embodied tasks. Benefitting from this design, we are able to train a unified model on the data collected for diverse tasks, thereby enabling our model to address a wide spectrum of tasks, ranging from vision-language navigation and object localization, to 3D question answering, trajectory summarization, embodied question answering.
 
 ## Experiments
 <p align="center">
-    <img src="figs/overall_results.jpg" width="95%"><br>
+    <img src="assets/overall_results.jpg" width="95%"><br>
 </p>
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/visual-navigation-on-cooperative-vision-and-1)](https://paperswithcode.com/sota/visual-navigation-on-cooperative-vision-and-1?p=towards-learning-a-generalist-model-for)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/3d-question-answering-3d-qa-on-scanqa-test-w)](https://paperswithcode.com/sota/3d-question-answering-3d-qa-on-scanqa-test-w?p=towards-learning-a-generalist-model-for)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/visual-navigation-on-room-to-room-1)](https://paperswithcode.com/sota/visual-navigation-on-room-to-room-1?p=towards-learning-a-generalist-model-for)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/towards-learning-a-generalist-model-for/visual-navigation-on-soon-test)](https://paperswithcode.com/sota/visual-navigation-on-soon-test?p=towards-learning-a-generalist-model-for)
 
 With only a single model, NaviLLM has achieved new state-of-the-art results simultaneously on multiple benchmarks, i.e.
 CVDN, SOON, and ScanQA, and demonstrated
