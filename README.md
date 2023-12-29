@@ -164,12 +164,12 @@ We release the model checkpoints and corresponding training logs as follows.
     </tr>
         </tr>
         <tr align="center">
-        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_without_pretrain</a></td><td><a href="figs/model_without_pretrain.log">here</a></td><td>~1</td><td>5.91</td><td>35.44</td><td>28.09</td><td><b>67</b></td><td>58</td><td><b>44.56</b></td><td><b>36.63</b></td><td><b>23.3</b></td><td><b>38.2</b></td>
+        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_without_pretrain</a></td><td><a href="assets/model_without_pretrain.log">here</a></td><td>~1</td><td>5.91</td><td>35.44</td><td>28.09</td><td><b>67</b></td><td>58</td><td><b>44.56</b></td><td><b>36.63</b></td><td><b>23.3</b></td><td><b>38.2</b></td>
     </tr>
     </tr>
         </tr>
         <tr align="center">
-        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_with_pretrain</a></td><td><a href="figs/model_with_pretrain.log">here</a></td><td>~3</td><td><b>6.16</b></td><td><b>38.33</b></td><td><b>29.24</b></td><td><b>67</b></td><td><b>59</b></td><td>42.15</td><td>35.68</td><td>22.1</td><td>37.6</td>
+        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_with_pretrain</a></td><td><a href="assets/model_with_pretrain.log">here</a></td><td>~3</td><td><b>6.16</b></td><td><b>38.33</b></td><td><b>29.24</b></td><td><b>67</b></td><td><b>59</b></td><td>42.15</td><td>35.68</td><td>22.1</td><td>37.6</td>
     </tr>
 </table>
 <br></br>
