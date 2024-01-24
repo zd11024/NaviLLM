@@ -16,7 +16,10 @@ class SOONAgent(MP3DAgent):
     def get_navigation_prompt(self, instruction, hist_num, cand_num, cls_token):
         
         # Task
-        prompt = '### Instruction: Find the described target. Target: {} \n'.format(instruction)
+        if self.remove_task_hint:
+            prompt = '### Instruction: {} \n'.format(instruction)
+        else:
+            prompt = '### Instruction: Find the described target. Target: {} \n'.format(instruction)
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
         hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
@@ -26,7 +29,10 @@ class SOONAgent(MP3DAgent):
         obs_text = ' '.join(['({}) <cand>'.format(i) if i>0 else '(0) stop' for i in range(cand_num)])
         prompt += '### Candidate: {}\n'.format(obs_text)
         # Output Hint
-        prompt += 'Nearby areas and objects can assist you in locating the desired room and object. Select the correct direction from the candidates to go to the target location.\n'
+        if self.remove_output_hint:
+            prompt += ""
+        else:
+            prompt += 'Nearby areas and objects can assist you in locating the desired room and object. Select the correct direction from the candidates to go to the target location.\n'
         prompt += '### Output: {}'.format(cls_token)
 
         return prompt
@@ -34,7 +40,10 @@ class SOONAgent(MP3DAgent):
     def get_summarization_prompt(self, instruction, hist_num, cand_num):
 
         # Task
-        prompt = '### Instruction: Generate the target you want to find based on your previous history and current location. Describe both the target and its surroundings. \n'
+        if self.remove_task_hint:
+            prompt = "### Instruction: Generate the task. \n"
+        else:
+            prompt = '### Instruction: Generate the target you want to find based on your previous history and current location. Describe both the target and its surroundings. \n'
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
         hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
@@ -45,7 +54,10 @@ class SOONAgent(MP3DAgent):
             obs_text = ' '.join(['({}) <cand>'.format(i) for i in range(cand_num)])
             prompt += '### Candidate: {}\n'.format(obs_text)
         # Output Hint
-        prompt += 'Please predict both the target you want to find and its surroundings.\n'
+        if self.remove_output_hint:
+            prompt += ""
+        else:
+            prompt += 'Please predict both the target you want to find and its surroundings.\n'
         prompt += '### Answer: '
         
         return prompt
@@ -54,7 +66,10 @@ class SOONAgent(MP3DAgent):
 
         # Task
         prompt = "Select the target object from the candidate objects based on the instruction and history.\n"
-        prompt += '### Instruction: Find the described target. Target: {} \n'.format(instruction)
+        if self.remove_task_hint:
+            prompt = '### Instruction: {} \n'.format(instruction)
+        else:
+            prompt += '### Instruction: Find the described target. Target: {} \n'.format(instruction)
 
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
@@ -67,7 +82,10 @@ class SOONAgent(MP3DAgent):
         prompt += '### Object: {}\n'.format(cand_text)
 
         # Output Hint
-        prompt += "Select the target object from the candidate objects according to the instruction.\n"
+        if self.remove_output_hint:
+            prompt += ""
+        else:
+            prompt += "Select the target object from the candidate objects according to the instruction.\n"
         prompt += '### Output: {}'.format(cls_token)
 
         return prompt

@@ -11,7 +11,10 @@ class CVDNAgent(MP3DAgent):
 
     def get_navigation_prompt(self, instruction, hist_num, cand_num, cls_token):
         # Task
-        prompt = '### Instruction: Find the described room according the given dialog. Target: {} \n'.format(instruction)
+        if self.remove_task_hint:
+            prompt = '### Instruction: {} \n'.format(instruction)
+        else:
+            prompt = '### Instruction: Find the described room according the given dialog. Target: {} \n'.format(instruction)
         # History
         prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
         hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
@@ -21,7 +24,11 @@ class CVDNAgent(MP3DAgent):
         obs_text = ' '.join(['({}) <cand>'.format(i) if i>0 else '(0) stop' for i in range(cand_num)])
         prompt += '### Candidate: {}\n'.format(obs_text)
         # Output Hint
-        prompt += 'Understand the dialog in the Instruction and infer the current progress based on the History and dialog. Then select the correct direction from the candidates to go to the target location.\n'
+        if self.remove_output_hint:
+            prompt += ''
+            
+        else:
+            prompt += 'Understand the dialog in the Instruction and infer the current progress based on the History and dialog. Then select the correct direction from the candidates to go to the target location.\n'
         prompt += '### Output: {}'.format(cls_token)
         
         return prompt

@@ -85,6 +85,9 @@ class MP3DAgent(BaseAgent):
         # buffer
         self.scanvp_cands = {}
 
+        self.remove_task_hint = args.remove_task_hint
+        self.remove_output_hint = args.remove_output_hint
+
     def update_scanvp_cands(self, obs):
         for ob in obs:
             scan = ob['scan']

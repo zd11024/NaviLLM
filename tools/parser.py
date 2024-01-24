@@ -104,6 +104,9 @@ def read_args():
     parser.add_argument("--do_sample", action="store_true", help="do_sample in evaluation")
     parser.add_argument("--temperature", type=float, default=1.)
 
+    ## ablation
+    parser.add_argument("--remove_output_hint", action="store_true")
+    parser.add_argument("--remove_task_hint", action="store_true")
 
     # others
     parser.add_argument(
