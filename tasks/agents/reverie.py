@@ -20,9 +20,12 @@ class REVERIEAgent(MP3DAgent):
         else:
             prompt = '### Instruction: Go to the location to complete the given task. Task: {} \n'.format(instruction)
         # History
-        prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
-        hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
-        prompt += '### History: {}\n'.format(hist_text)
+        if self.wo_history:
+            prompt += ''
+        else:
+            prompt += 'Following is the History, which contains the visual information of your previous decisions.\n'
+            hist_text = ' '.join(['({}) <hist>'.format(i) for i in range(hist_num)])
+            prompt += '### History: {}\n'.format(hist_text)
         # Observation
         prompt += 'Following is the Candidate, which contains several directions you can go to at the current position, candidate (0) is stop.\n'
         obs_text = ' '.join(['({}) <cand>'.format(i) if i>0 else '(0) stop' for i in range(cand_num)])

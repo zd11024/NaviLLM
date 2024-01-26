@@ -105,8 +105,9 @@ def read_args():
     parser.add_argument("--temperature", type=float, default=1.)
 
     ## ablation
-    parser.add_argument("--remove_output_hint", action="store_true")
-    parser.add_argument("--remove_task_hint", action="store_true")
+    parser.add_argument("--remove_output_hint", action="store_true", help="remove the output hint in the prompt")
+    parser.add_argument("--remove_task_hint", action="store_true", help="remove the task hint in the prompt")
+    parser.add_argument("--wo_history", action="store_true", help="without history")
 
     # others
     parser.add_argument(
