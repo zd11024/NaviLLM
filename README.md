@@ -49,6 +49,7 @@ Building a generalist agent that can interact with the world is an ultimate goal
 <!-- This repository contains the codes for our paper "Towards Learning a Generalist Model for Embodied Navigation". -->
 
 ## Updates
+- Feb 24, our paper is accepted to CVPR 2024.
 - Dec 21, we have refactored our codebase to make it clearer and more flexible. 
 - Dec 13, we release the model checkpoints at this [link](https://huggingface.co/zd11024/NaviLLM).
 - Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
