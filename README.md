@@ -19,7 +19,7 @@
 <div align="center" margin-bottom="3em">
 <a target="_blank" href="https://github.com/zd11024">Duo Zheng<sup>1,2*</sup></a>,
 <a target="_blank" href="https://sega-hsj.github.io/">Shijia Huang<sup>1*</sup></a>, 
-<a target="_blank" href="https://github.com/MuMuJun97">Lin Zhao<sup>3,4</sup></a>, 
+<a target="_blank" href="https://github.com/MuMuJun97">Lin Zhao<sup>3</sup></a>, 
 <a target="_blank" href="https://pages.cs.wisc.edu/~yiwuzhong/">Yiwu Zhong<sup>1</sup></a> and 
 <a target="_blank" href="https://lwwangcse.github.io/">Liwei Wang<sup>1&ddagger;</sup></a>
 
@@ -30,7 +30,6 @@
 <sup>1</sup>The Chinese University of Hong Kong<br>
 <sup>2</sup>Shanghai AI Laboratory<br>
 <sup>3</sup>Centre for Perceptual and Interactive Intelligence<br>
-<sup>4</sup>Beijing Institute of Technology<br>
 </strong>
 </div>
 &nbsp;
@@ -50,7 +49,6 @@ Building a generalist agent that can interact with the world is an ultimate goal
 
 ## Updates
 - Feb 24, our paper is accepted to CVPR 2024.
-- Dec 21, we have refactored our codebase to make it clearer and more flexible. 
 - Dec 13, we release the model checkpoints at this [link](https://huggingface.co/zd11024/NaviLLM).
 - Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
 - Dec 5, our paper is released.
@@ -165,7 +163,7 @@ We release the model checkpoints and corresponding training logs as follows.
     </tr>
         </tr>
         <tr align="center">
-        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_without_pretrain</a></td><td><a href="assets/model_without_pretrain.log">here</a></td><td>~1</td><td>5.91</td><td>35.44</td><td>28.09</td><td><b>67</b></td><td>58</td><td><b>44.56</b></td><td><b>36.63</b></td><td><b>23.3</b></td><td><b>38.2</b></td>
+        <td><a href="https://huggingface.co/zd11024/NaviLLM">model_without_pretrain</a></td><td><a href="assets/model_without_pretrain.log">here</a></td><td>~1.5</td><td>5.91</td><td>35.44</td><td>28.09</td><td><b>67</b></td><td>58</td><td><b>44.56</b></td><td><b>36.63</b></td><td><b>23.3</b></td><td><b>38.2</b></td>
     </tr>
     </tr>
         </tr>
