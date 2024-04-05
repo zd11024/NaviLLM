@@ -48,7 +48,8 @@ Building a generalist agent that can interact with the world is an ultimate goal
 <!-- This repository contains the codes for our paper "Towards Learning a Generalist Model for Embodied Navigation". -->
 
 ## Updates
-- Feb 24, our paper is accepted to CVPR 2024.
+- **Update**: Our model is built upon Vicuna-7B-v1.1 instead of Vicuna-7B-v0. Using Vicuna-7B-v0 will have a certain degree of decrease compared the original results ([#7](https://github.com/zd11024/NaviLLM/issues/7)).
+- Feb 24, our paper is accepted to **CVPR 2024 Poster (Highlight)**.
 - Dec 13, we release the model checkpoints at this [link](https://huggingface.co/zd11024/NaviLLM).
 - Dec 6, the processed data and features can be found [here](https://mycuhk-my.sharepoint.com/:f:/g/personal/1155204980_link_cuhk_edu_hk/EvgqBlhxMEtBjUm1VkBBqZsBq7QnZ97l-Y9PdS58cqsomQ?e=azuiDc).
 - Dec 5, our paper is released.
@@ -148,7 +149,7 @@ We leverage the object features extracted from ViT-B16 by [HM3DAutoVLN](https://
 
 **4. Models**
 
-The LLM is built upon [Vicuna-7B-v0](https://huggingface.co/lmsys/vicuna-7b-delta-v0/tree/main). Please download the pre-trained model and put it at data/models.
+The LLM is built upon [Vicuna-7B-v1.1](https://github.com/lm-sys/FastChat/blob/main/docs/vicuna_weights_version.md#how-to-apply-delta-weights-for-weights-v11-and-v0). Please download the pre-trained model and put it at data/models. Using Vicuna-7B-v0 will have a certain degree of decrease compared the original results ([#7](https://github.com/zd11024/NaviLLM/issues/7)).
 
 
 ## Model Checkpoints
