@@ -326,7 +326,9 @@ class NavModel(nn.Module):
                 attention_mask=text_input['attention_mask'],
                 cand_vis=vp_img_embeds[vp_nav_masks],
                 hist_vis=hist_vis_input,
+                bos_token_id=self.lang_model.tokenizer.bos_token_id,
                 eos_token_id=self.lang_model.tokenizer.eos_token_id,
+                pad_token_id=self.lang_model.tokenizer.unk_token_id,
                 max_new_tokens=50,
                 do_sample=False,
                 logits_processor=logits_processor
@@ -387,7 +389,9 @@ class NavModel(nn.Module):
                 input_ids=text_input['input_ids'],
                 attention_mask=text_input['attention_mask'],
                 cand_vis=pano_embeds[pano_masks],
+                bos_token_id=self.lang_model.tokenizer.bos_token_id,
                 eos_token_id=self.lang_model.tokenizer.eos_token_id,
+                pad_token_id=self.lang_model.tokenizer.unk_token_id,
                 **kwargs
             ).tolist()
 
