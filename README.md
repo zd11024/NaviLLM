@@ -211,12 +211,11 @@ Additionally, this work benefits from [DUET](https://github.com/cshizhe/VLN-DUET
 ## Citation
 If you find our *NaviLLM* useful for your research, please consider giving this repository a star and citing our paper as follows:
 ```
-@misc{zheng2023learning,
-      title={Towards Learning a Generalist Model for Embodied Navigation}, 
-      author={Duo Zheng and Shijia Huang and Lin Zhao and Yiwu Zhong and Liwei Wang},
-      year={2023},
-      eprint={2312.02010},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@inproceedings{zheng2024towards,
+  title={Towards learning a generalist model for embodied navigation},
+  author={Zheng, Duo and Huang, Shijia and Zhao, Lin and Zhong, Yiwu and Wang, Liwei},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={13624--13634},
+  year={2024}
 }
 ```
